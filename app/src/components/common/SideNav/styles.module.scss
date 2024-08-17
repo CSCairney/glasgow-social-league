@@ -1,0 +1,45 @@
+@use "src/styles/colors";
+
+.sideNav{
+    background-color: colors.$application-navigation-background;
+    color: white;
+    height: 100%;
+    width: 100%;
+    border-right: white 1px solid;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 10% 90%;
+    &__branding{
+        display: grid;
+        grid-template-rows: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    &__brandingLink{
+        text-decoration: none;
+        color: inherit;
+        font-size: 25px;
+        font-weight: 600;
+        transition: color 0.3s ease-in-out;
+        &:hover{
+            color: red;
+        }
+        &--active{
+            color: white;
+        }
+    }
+    &__links{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 25px;
+        height: 100%;
+        @media (max-width: 768px){
+            gap: 10px;
+        }
+        @media (max-width: 425px){
+            gap: 5px;
+        }
+    }
+}
