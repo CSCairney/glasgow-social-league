@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/app/store";
 import { getPersistedOverlaySettings } from "@/redux/stores/overlay/actions/overlay";
 import React, { useEffect } from "react";
 
-const LocalStorage = () => {
+const useLocalStorage = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -11,9 +11,8 @@ const LocalStorage = () => {
     }
       , [dispatch]);
       
-    return (
-        <></>
-    )
+    return {
+    }
     }
 
-export default LocalStorage;
+export default useLocalStorage;

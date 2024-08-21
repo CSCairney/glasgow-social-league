@@ -3,8 +3,8 @@ import React from "react";
 import styles from "./styles.module.scss";
 
 export const metadata: Metadata = {
-    title: "About Us | Idle Miner",
-    description: 'History behind the Idle Miner App',
+    title: "About Us | GSL",
+    description: 'History behind the GSL',
   };
   
 const About = () => {

@@ -2,16 +2,16 @@ import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-    title: "Dashboard | Idle Miner",
-    description: 'Your dashboard for Idle miner',
+    title: "Dashboard",
+    description: 'Your dashboard for GSL',
 };
 
-const Home = () => {
+const Dashboard = () => {
     return (
         <div>
-            <h1>Home</h1>
+            <h1>Dashboard</h1>
         </div>
     );
 }
 
-export default Home;
+export default Dashboard;

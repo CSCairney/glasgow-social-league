@@ -1,6 +1,7 @@
 import { configureStore} from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import overlayReducer from "../redux/stores/overlay";
+import accountReducer from "../redux/stores/account";
 import { listenerMiddleware } from "@/redux/localStorage/services/listeners";
 
 export function createStore(preloadedState = {}) {
@@ -8,6 +9,7 @@ export function createStore(preloadedState = {}) {
             preloadedState,
             reducer: {
                 overlay: overlayReducer,
+                account: accountReducer
             },
             middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().prepend(listenerMiddleware.middleware),
