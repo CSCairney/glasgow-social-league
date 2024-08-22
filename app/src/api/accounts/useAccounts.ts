@@ -1,5 +1,5 @@
 import {useAuthToken} from "@/api/common/useAuthToken";
-import {fetchWithAuth} from "@/api/common/fetchWithAuth";
+import {fetchWithAuth, fetchWithoutAuth} from "@/api/common/fetchWithAuth";
 
 
 export const useAccounts = () => {
@@ -34,10 +34,10 @@ export const useAccounts = () => {
     };
 
     const login = async (email: string, password: string) => {
-        return await fetchWithAuth('/accounts/login', {
+        return await fetchWithoutAuth('/accounts/login', {
             method: 'POST',
             body: JSON.stringify({ email, password }),
-        }, token);
+        });
     };
 
     return {

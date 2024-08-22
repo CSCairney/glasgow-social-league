@@ -4,7 +4,7 @@ import { useAccounts } from "@/api/accounts/useAccounts";
 import { useState } from "react";
 
 export default function Login() {
-    const {login} = useAccounts();
+    const { login } = useAccounts();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
@@ -31,34 +31,28 @@ export default function Login() {
             <div className={styles.card}>
                 <h2>Login</h2>
                 <form onSubmit={handleLogin}>
-                    <div className={styles.field}>
-                        <label htmlFor="email">Email:</label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="password">Password:</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
                     {error && <div className={styles.error}>{error}</div>}
-                    <div>
-                        <button type="submit" disabled={isLoading}>
-                            {isLoading ? 'Logging in...' : 'Login'}
-                        </button>
-                    </div>
+                    <button type="submit" disabled={isLoading}>
+                        {isLoading ? 'Logging in...' : 'Login'}
+                    </button>
                 </form>
             </div>
         </div>
-    )
-};
+    );
+}
