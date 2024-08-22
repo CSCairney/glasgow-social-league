@@ -1,36 +1,36 @@
-import {useAuthToken} from "@/hooks/auth/useAuthToken";
 import {fetchWithAuth, fetchWithoutAuth} from "@/api/common/fetchWithAuth";
+import {useAppSelector} from "@/app/store";
 
 
 export const useAccounts = () => {
-    const token = useAuthToken();
+    const stateToken = useAppSelector(state => state.account.token);
 
     const getAllAccounts = async () => {
-        return await fetchWithAuth('/accounts', {}, token);
+        return await fetchWithAuth('/accounts', {}, stateToken);
     };
 
     const getAccountById = async (id: string) => {
-        return await fetchWithAuth(`/accounts/${id}`, {}, token);
+        return await fetchWithAuth(`/accounts/${id}`, {}, stateToken);
     };
 
     const createAccount = async (accountData: any) => {
         return await fetchWithAuth('/accounts', {
             method: 'POST',
             body: JSON.stringify(accountData),
-        }, token);
+        }, stateToken);
     };
 
     const updateAccount = async (id: string, accountData: any) => {
         return await fetchWithAuth(`/accounts/${id}`, {
             method: 'PUT',
             body: JSON.stringify(accountData),
-        }, token);
+        }, stateToken);
     };
 
     const deleteAccount = async (id: string) => {
         return await fetchWithAuth(`/accounts/${id}`, {
             method: 'DELETE',
-        }, token);
+        }, stateToken);
     };
 
     const login = async (email: string, password: string) => {

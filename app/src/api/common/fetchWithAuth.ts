@@ -1,6 +1,7 @@
 export const fetchWithAuth = async (url: string, options: RequestInit = {}, token: string) => {
     const response = await fetch(`http://localhost:8080${url}`, {
         ...options,
+        mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': token ? `Bearer ${token}` : '',
@@ -22,6 +23,7 @@ export const fetchWithAuth = async (url: string, options: RequestInit = {}, toke
 export const fetchWithoutAuth = async (url: string, options: RequestInit = {}) => {
     const response = await fetch(`http://localhost:8080${url}`, {
         ...options,
+        mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
             ...options.headers,

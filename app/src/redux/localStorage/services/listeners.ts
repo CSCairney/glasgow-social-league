@@ -25,9 +25,7 @@ listenerMiddleware.startListening({
     },
   });
 
-export const accountListenerMiddleware = createListenerMiddleware();
-
-accountListenerMiddleware.startListening({
+listenerMiddleware.startListening({
     matcher: isAnyOf(
         setAccountState,
         setName,

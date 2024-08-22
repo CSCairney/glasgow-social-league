@@ -1,25 +1,22 @@
 "use client";
 import styles from './page.module.scss';
 import { useAccounts } from "@/api/accounts/useAccounts";
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import useToast from "@/hooks/notifications/useToast";
+import { useRouter } from "next/navigation";
+import {setToken} from "@/redux/stores/account";
+import {useAppDispatch } from "@/app/store";
 
 export default function Login() {
     const { login } = useAccounts();
+    const router = useRouter();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const useDispatch = useAppDispatch();
 
-    const { showInfo } = useToast();
-
-    useEffect(() => {
-        // Check if the user was redirected
-        if (localStorage.getItem('redirected') === 'true') {
-            showInfo("You were redirected to the login page.");
-            localStorage.removeItem('redirected');  // Remove the flag after showing the toast
-        }
-    }, [showInfo]);
+    const { showInfo, showError } = useToast();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,10 +25,12 @@ export default function Login() {
 
         try {
             const response = await login(email, password);
-            console.log('Login successful:', response);
+            useDispatch(setToken(response.token));
+            showInfo("Successfully logged in!");
+            router.push("/");
         } catch (err) {
-            setError('Login failed. Please check your credentials and try again.');
-            console.error('Login error:', err);
+            showError('Login failed. Please check your credentials and try again.');
+            console.error(error);
         } finally {
             setIsLoading(false);
         }
@@ -58,7 +57,6 @@ export default function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    {error && <div className={styles.error}>{error}</div>}
                     <button type="submit" disabled={isLoading}>
                         {isLoading ? 'Logging in...' : 'Login'}
                     </button>
