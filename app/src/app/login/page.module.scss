@@ -1,0 +1,86 @@
+@import "src/styles/colors";  // Adjust the path as necessary
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 90vh;
+  background-color: $application-background;
+  padding: 20px;
+}
+
+.card {
+  background-color: $application-navigation-background;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+
+  & h2 {
+    margin-bottom: 20px;
+    color: $login-form-interaction-background;
+    font-size: 24px;
+    text-align: center;
+  }
+
+  & form {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    gap: 10px;
+    align-items: center;
+
+    & label {
+      font-weight: 500;
+      color: $login-form-interaction-background;
+      margin-bottom: 0; /* Remove margin as grid gap is controlling spacing */
+    }
+
+    & input {
+      padding: 10px;
+      border: 1px solid $-light-grey;
+      border-radius: 5px;
+      font-size: 16px;
+      width: 100%;
+      box-sizing: border-box;
+      background-color: $application-background;
+      color: $login-form-interaction-background;
+      transition: border-color 0.2s ease-in-out;
+
+      &:focus {
+        border-color: $-blood-red;
+        outline: none;
+      }
+    }
+
+    & button {
+      grid-column: span 2;
+      padding: 12px;
+      background-color: $-blood-red;
+      color: $login-form-interaction-background;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+
+      &:hover {
+        background-color: $-dark-blood-red;
+      }
+
+      &:disabled {
+        background-color: $-charcoal;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.error {
+  color: $-blood-red;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
+}

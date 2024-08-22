@@ -1,6 +1,6 @@
 import { overlayState } from "./types/overlay";
 
-export function createInitialDataState(): overlayState {
+export function createInitialOverlayState(): overlayState {
   return {
     isLoading: false,
     error: "",

@@ -1,5 +1,0 @@
-This folder will be used with the new concept in Next.js called Server Actions.
-These are created individually for each page therefore create a child folder to implement new server actions.
-
-RESOURCE:
-https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations 

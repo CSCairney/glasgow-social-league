@@ -1,3 +1,4 @@
 export enum LocalStorageKeys {
-    OverlaySettings = "Overlay Settings"
+    OverlaySettings = "Overlay Settings",
+    AccountDetails = "Account Details",
   }
