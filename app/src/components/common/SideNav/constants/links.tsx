@@ -1,4 +1,4 @@
-import { NavLinks } from "../types/nav";
+import {NavLink, NavLinks} from "../types/nav";
 
 export const NavbarLinks: NavLinks = {
     links: [
@@ -22,3 +22,25 @@ export const NavbarLinks: NavLinks = {
         }
     ]
 };
+
+export const SportLinks = (sportId: string): NavLinks => {
+
+    const links: NavLink[] = [
+        {
+            name: "Rules",
+            path: `/sports/${sportId}/rules`
+        },
+        {
+            name: "Matches",
+            path: `/sports/${sportId}/matches`
+        },
+        {
+            name: "Champions",
+            path: `/sports/${sportId}/champions`,
+        }
+    ];
+
+    return { links };
+}
+
+

@@ -3,6 +3,7 @@ import { clearOverlayState, setErrorLog, setErrorMessage, setIsLoading, setOverl
 import { RootState } from "@/app/store";
 import { settingsPersistenceService } from "../persistence";
 import {clearAccountState, setAccountState, setEmail, setId, setName, setToken} from "@/redux/stores/account";
+import {clearSportState, setSportDescription, setSportId, setSportName, setSportState} from "@/redux/stores/sport";
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -38,6 +39,25 @@ listenerMiddleware.startListening({
         try {
             settingsPersistenceService.setAccountSettings(
                 (listenerApi.getState() as RootState).account
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    },
+});
+
+listenerMiddleware.startListening({
+    matcher: isAnyOf(
+        setSportState,
+        setSportName,
+        setSportDescription,
+        setSportId,
+        clearSportState
+    ),
+    effect: (_action, listenerApi) => {
+        try {
+            settingsPersistenceService.setSportSettings(
+                (listenerApi.getState() as RootState).sport
             );
         } catch (error) {
             console.error(error);

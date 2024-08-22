@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./styles.module.scss";
-import { NavbarLinks } from "./constants/links";
 import { IoHomeOutline } from "react-icons/io5";
 import Navlink from "./NavLink";
 import Link from "next/link";
+import {NavLinks} from "@/components/common/SideNav/types/nav";
 
-const SideNav = () => {
+const SideNav = (links: NavLinks) => {
 
     return (
         <div className={styles.sideNav}>
@@ -15,7 +15,7 @@ const SideNav = () => {
                 </Link>
             </div>
             <div className={styles.sideNav__links}>
-                {NavbarLinks.links.map((link, index) => (
+                {links.links.map((link, index) => (
                     <Navlink key={index} name={link.name} path={link.path} subPaths={link.subPaths} />
                 ))}
             </div>
