@@ -1,9 +1,9 @@
-@use "src/styles/colors";
+@import "src/styles/colors";
 
 .application {
   display: grid;
   grid-template-rows: auto 1fr; /* Auto-sized header, flexible content */
-  background-color: colors.$application-background;
+  background-color: $application-background;
   height: 100vh; /* Ensure the application takes full viewport height */
   margin: 0 !important;
 

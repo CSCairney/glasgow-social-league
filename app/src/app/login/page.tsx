@@ -14,7 +14,7 @@ export default function Login() {
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const useDispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
     const { showInfo, showError } = useToast();
 
@@ -25,8 +25,7 @@ export default function Login() {
 
         try {
             const response = await login(email, password);
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            useDispatch(setToken(response.token));
+            dispatch(setToken(response.token));
             showInfo("Successfully logged in!");
             router.push("/");
         } catch (err) {

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { sportState } from "@/redux/stores/sport/types/sport";
-import {createInitialSportState} from "@/redux/stores/sport/helpers/initial";
+import {createInitialSportState} from "@/redux/stores/sport/sportState";
 
 const sportSlice = createSlice({
     name: "sportState",

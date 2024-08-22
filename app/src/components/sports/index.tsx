@@ -2,13 +2,24 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useSports } from "@/api/sports/useSports";
 import { Sport } from "@/components/sports/types";
+import {useAppDispatch} from "@/app/store";
+import {setSportDescription, setSportId, setSportName} from "@/redux/stores/sport";
+import {useRouter} from "next/navigation";
 
 const SportsButtons: React.FC = () => {
     const { getAllSports } = useSports();
     const [sports, setSports] = useState<Sport[]>([]);
+    const dispatch = useAppDispatch();
+    const router = useRouter();
 
     const handleSportClick = (id: number) => {
-        console.log(`Sport ID clicked: ${id}`);
+        const sport = sports.find((sp) => sp.id === id);
+        if (sport){
+            dispatch(setSportId(sport.id));
+            dispatch(setSportName(sport.name));
+            dispatch(setSportDescription(sport.description));
+            router.push(`/sports/${sport.id}`);
+        }
     };
 
     useEffect(() => {
