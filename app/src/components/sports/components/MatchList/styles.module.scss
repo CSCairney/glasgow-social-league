@@ -1,0 +1,55 @@
+.matchListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: var(--application-background); /* Use a background color that contrasts well */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+}
+
+.matchItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  background-color: var(--login-form-interaction-background); /* Light background for individual match items */
+  border-radius: 8px;
+  border: 1px solid var(--light-grey); /* Border to distinguish match items */
+}
+
+.matchDetails {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--sand);
+}
+
+.matchScores {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid var(--light-grey);
+    border-radius: 4px;
+    background-color: var(--application-background);
+    color: var(--sand);
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow to the input fields */
+  }
+}
+
+.matchWinner {
+  font-size: 1rem;
+  color: var(--light-grey);
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.matchWinner span {
+  font-weight: bold;
+  color: var(--sand);
+}

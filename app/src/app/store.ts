@@ -3,6 +3,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import overlayReducer from "../redux/stores/overlay";
 import accountReducer from "../redux/stores/account";
 import sportReducer from "../redux/stores/sport";
+import sessionReducer from "../redux/stores/session";
 import { listenerMiddleware } from "@/redux/localStorage/services/listeners";
 
 export function createStore(preloadedState = {}) {
@@ -12,6 +13,7 @@ export function createStore(preloadedState = {}) {
                 overlay: overlayReducer,
                 account: accountReducer,
                 sport: sportReducer,
+                session: sessionReducer,
             },
             middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().prepend(listenerMiddleware.middleware),
