@@ -1,7 +1,8 @@
 "use client";
 import styles from './page.module.scss';
 import { useAccounts } from "@/api/accounts/useAccounts";
-import { useState } from "react";
+import {useEffect, useState} from "react";
+import useToast from "@/hooks/notifications/useToast";
 
 export default function Login() {
     const { login } = useAccounts();
@@ -9,6 +10,16 @@ export default function Login() {
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { showInfo } = useToast();
+
+    useEffect(() => {
+        // Check if the user was redirected
+        if (localStorage.getItem('redirected') === 'true') {
+            showInfo("You were redirected to the login page.");
+            localStorage.removeItem('redirected');  // Remove the flag after showing the toast
+        }
+    }, [showInfo]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();

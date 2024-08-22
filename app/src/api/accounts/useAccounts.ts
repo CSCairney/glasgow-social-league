@@ -1,4 +1,4 @@
-import {useAuthToken} from "@/api/common/useAuthToken";
+import {useAuthToken} from "@/hooks/auth/useAuthToken";
 import {fetchWithAuth, fetchWithoutAuth} from "@/api/common/fetchWithAuth";
 
 
