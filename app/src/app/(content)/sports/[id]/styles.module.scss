@@ -1,0 +1,30 @@
+@import "src/styles/colors";
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
+  background-color: $application-background;
+
+  // Media query for mobile devices
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.title {
+  font-size: 2rem;
+  color: $-sand;
+  margin-right: 2rem;
+
+  // Center the title on mobile
+  @media (max-width: 768px) {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+}

@@ -4,14 +4,14 @@ import { useAccounts } from "@/api/accounts/useAccounts";
 import { useState} from "react";
 import useToast from "@/hooks/notifications/useToast";
 import { useRouter } from "next/navigation";
-import {setToken} from "@/redux/stores/account";
+import {setName, setToken, setEmail, setId} from "@/redux/stores/account";
 import {useAppDispatch } from "@/app/store";
 
 export default function Login() {
     const { login } = useAccounts();
     const router = useRouter();
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [email, setFormEmail] = useState<string>('');
+    const [password, setFormPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const dispatch = useAppDispatch();
@@ -26,6 +26,9 @@ export default function Login() {
         try {
             const response = await login(email, password);
             dispatch(setToken(response.token));
+            dispatch(setName(response.name));
+            dispatch(setEmail(response.email));
+            dispatch(setId(response.id));
             showInfo("Successfully logged in!");
             router.push("/");
         } catch (err) {
@@ -46,7 +49,7 @@ export default function Login() {
                         type="email"
                         id="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setFormEmail(e.target.value)}
                         required
                     />
                     <label htmlFor="password">Password:</label>
@@ -54,7 +57,7 @@ export default function Login() {
                         type="password"
                         id="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => setFormPassword(e.target.value)}
                         required
                     />
                     <button type="submit" disabled={isLoading}>

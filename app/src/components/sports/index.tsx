@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import styles from './styles.module.scss';
 import { useSports } from "@/api/sports/useSports";
+import styles from "./styles.module.scss";
 import { Sport } from "@/components/sports/types";
 import {useAppDispatch} from "@/app/store";
 import {setSportDescription, setSportId, setSportName} from "@/redux/stores/sport";
@@ -33,7 +33,7 @@ const SportsButtons: React.FC = () => {
 
     return (
         <div className={styles.container}>
-            {sports.map((sport) => (
+            {sports ? (sports.map((sport) => (
                 <button
                     key={sport.id}
                     className={styles.button}
@@ -42,7 +42,9 @@ const SportsButtons: React.FC = () => {
                     <h3 className={styles.name}>{sport.name}</h3>
                     <p className={styles.description}>{sport.description}</p>
                 </button>
-            ))}
+            ))) : (
+                <p>Sports unable to be retrieved. Contact Support.</p>
+            )}
         </div>
     );
 };
