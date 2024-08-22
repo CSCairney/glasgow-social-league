@@ -1,34 +1,32 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
-import { useSessionParticipants, SessionParticipantWithAccount } from "@/api/sessions/useSessionParticipants";
+import { useAppSelector, useAppDispatch } from "@/app/store";
+import {SessionParticipantWithAccount, useSessionParticipants} from "@/api/sessions/useSessionParticipants";
 import { useMatches } from "@/api/sports/useMatches";
 import { Match } from "@/types/sports/match";
+import {setMatches} from "@/redux/stores/session";
 
 const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
     const { getParticipantsBySessionId } = useSessionParticipants();
     const { createMatch, updateMatch, getMatchesBySessionId } = useMatches();
-    const [matches, setMatches] = useState<Match[]>([]);
-    const [participants, setParticipants] = useState<SessionParticipantWithAccount[]>([]);
+    const [matches, setLocalMatches] = useState<Match[]>([]);
+    const participants = useAppSelector(state => state.session.participants);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const fetchParticipants = async () => {
-            const participantsData = await getParticipantsBySessionId(sessionId);
-            setParticipants(participantsData);
-            return participantsData;
-        };
-
-        const fetchMatches = async (participantsList: SessionParticipantWithAccount[]) => {
+        const fetchMatches = async () => {
             const matchesData = await getMatchesBySessionId(sessionId);
             if (matchesData.length > 0) {
-                setMatches(matchesData);
-            } else if (participantsList.length > 1) {
-                await generateMatches(participantsList);
+                setLocalMatches(matchesData);
+                dispatch(setMatches(matchesData));
+            } else if (participants.length > 1) {
+                await generateMatches(participants);
             }
         };
 
-        fetchParticipants().then(fetchMatches);
-    }, [sessionId]);
+        fetchMatches();
+    }, [sessionId, participants]);
 
     const generateMatches = async (participantsList: SessionParticipantWithAccount[]) => {
         const newMatches: Match[] = [];
@@ -50,7 +48,8 @@ const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
                 newMatches.push(createdMatch);
             }
         }
-        setMatches(newMatches);
+        setLocalMatches(newMatches);
+        dispatch(setMatches(newMatches));
     };
 
     const handleScoreUpdate = async (matchId: number, scorePlayerOne: number, scorePlayerTwo: number) => {
@@ -59,15 +58,11 @@ const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
         if (match) {
             await updateMatch(matchId, { scorePlayerOne, scorePlayerTwo, winnerId });
             // @ts-ignore
-            setMatches(matches.map(m => m.id === matchId ? { ...m, scorePlayerOne, scorePlayerTwo, winnerId } : m));
+            setLocalMatches(matches.map(m => m.id === matchId ? { ...m, scorePlayerOne, scorePlayerTwo, winnerId } : m));
+            // @ts-ignore
+            dispatch(setMatches(matches.map(m => m.id === matchId ? { ...m, scorePlayerOne, scorePlayerTwo, winnerId } : m)));
         }
     };
-
-    if (!matches || sessionId) {
-        return (
-            <></>
-        )
-    }
 
     return (
         <div className={styles.matchListContainer}>

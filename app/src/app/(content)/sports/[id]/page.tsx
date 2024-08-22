@@ -1,45 +1,56 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import { useAppSelector } from "@/app/store";
+import { useAccounts } from "@/api/accounts/useAccounts"; // Assuming you have a hook to fetch accounts
 import SessionCreate from "../../../../components/sports/components/SessionCreate";
-import MatchList from "../../../../components/sports/components/MatchList"; // Import the MatchList component
-import { useAccounts } from "@/api/accounts/useAccounts";
+import MatchList from "../../../../components/sports/components/MatchList";
 import AccountsModal from "@/components/account/AccountModal";
 
 const SelectedSport = () => {
     const selectedSport = useAppSelector(state => state.sport.name);
-    const { getAllAccounts } = useAccounts();
     const [sessionId, setSessionId] = useState<number | null>(null);
-    const [showModal, setShowModal] = useState(false);
-    const [accounts, setAccounts] = useState<any[]>([]);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [accounts, setAccounts] = useState<any[]>([]); // Add state for accounts
 
-    const handleSessionCreated = async (newSessionId: number) => {
+    const { getAllAccounts } = useAccounts();
+
+    useEffect(() => {
+        // Fetch accounts when the component mounts
+        const fetchAccounts = async () => {
+            try {
+                const accountsData = await getAllAccounts();
+                setAccounts(accountsData);
+            } catch (error) {
+                console.error("Error fetching accounts:", error);
+            }
+        };
+
+        fetchAccounts();
+    }, []);
+
+    const handleSessionCreated = (newSessionId: number) => {
         setSessionId(newSessionId);
-
-        const accountList = await getAllAccounts();
-        setAccounts(accountList);
-
         setShowModal(true);
     };
 
-    const handleCloseModal = () => {
+    const handleModalClose = () => {
         setShowModal(false);
     };
 
     return (
         <div className={styles.container}>
             <h4 className={styles.title}>{selectedSport}</h4>
-            <SessionCreate onCreate={handleSessionCreated}/>
-            {showModal && (
+            <SessionCreate onCreate={handleSessionCreated} />
+            {showModal && sessionId && (
                 <AccountsModal
-                    sessionId={sessionId!}
-                    accounts={accounts}
-                    onClose={handleCloseModal}
+                    sessionId={sessionId}
+                    accounts={accounts} // Pass the accounts to the modal
+                    onClose={handleModalClose}
                 />
             )}
             {sessionId && (
-                <MatchList sessionId={sessionId}/> // Render MatchList when a session is created
+                <MatchList sessionId={sessionId} />
             )}
         </div>
     );
