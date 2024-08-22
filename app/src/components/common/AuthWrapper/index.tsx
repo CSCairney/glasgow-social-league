@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/app/store";
 import useLocalStorage from "@/hooks/localStorage/useLocalStorage";
 import SideNav from "@/components/common/SideNav";
+import {NavbarLinks} from "@/components/common/SideNav/constants/links";
 
 interface AuthWrapperProps {
     children: ReactNode;
@@ -22,7 +23,7 @@ export default function AuthWrapper({ children }: AuthWrapperProps) {
 
     return (
         <>
-            <SideNav />
+            <SideNav links={NavbarLinks.links} />
             {children}
         </>
     );

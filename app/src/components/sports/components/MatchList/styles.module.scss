@@ -1,0 +1,76 @@
+@import "src/styles/colors";
+
+.matchListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: $application-background;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Adds a subtle shadow for depth
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); // Ensures items fill available space, with each item being at least 200px wide
+    gap: 20px;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr); // 3 columns for larger screens
+  }
+}
+
+.matchItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  background-color: $-dark-blood-red;
+  border-radius: 8px;
+  border: 1px solid $-light-grey;
+  width: 100%; // Default to full width
+
+  @media (max-width: 768px) {
+    width: 80%; // For mobile screens, match items will take up 90% of the viewport width
+  }
+
+  @media (min-width: 768px) {
+    width: auto; // Allow the grid to control the width on larger screens
+  }
+}
+
+.matchDetails {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: $-sand;
+}
+
+.matchScores {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid $-light-grey;
+    border-radius: 4px;
+    background-color: $application-background;
+    color: $-sand;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Adds a subtle shadow to the input fields
+  }
+}
+
+.matchWinner {
+  font-size: 1rem;
+  color: $-light-grey;
+  font-style: italic;
+  margin-top: 10px;
+
+  span {
+    font-weight: bold;
+    color: $-sand;
+  }
+}
