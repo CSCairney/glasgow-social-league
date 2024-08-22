@@ -2,16 +2,18 @@
 import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import { useAppSelector } from "@/app/store";
-import { useAccounts } from "@/api/accounts/useAccounts"; // Assuming you have a hook to fetch accounts
+import { useAccounts } from "@/api/accounts/useAccounts";
 import SessionCreate from "../../../../components/sports/components/SessionCreate";
 import MatchList from "../../../../components/sports/components/MatchList";
 import AccountsModal from "@/components/account/AccountModal";
+import SessionStop from "@/components/sports/components/SessionStop";
 
 const SelectedSport = () => {
     const selectedSport = useAppSelector(state => state.sport.name);
-    const [sessionId, setSessionId] = useState<number | null>(null);
+    const storedSessionId = useAppSelector(state => state.session.sessionId);
+    const [sessionId, setSessionId] = useState<number | null>(storedSessionId);
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [accounts, setAccounts] = useState<any[]>([]); // Add state for accounts
+    const [accounts, setAccounts] = useState<any[]>([]);
 
     const { getAllAccounts } = useAccounts();
 
@@ -29,6 +31,12 @@ const SelectedSport = () => {
         fetchAccounts();
     }, []);
 
+    useEffect(() => {
+        if (storedSessionId) {
+            setSessionId(storedSessionId);
+        }
+    }, [storedSessionId]);
+
     const handleSessionCreated = (newSessionId: number) => {
         setSessionId(newSessionId);
         setShowModal(true);
@@ -41,7 +49,8 @@ const SelectedSport = () => {
     return (
         <div className={styles.container}>
             <h4 className={styles.title}>{selectedSport}</h4>
-            <SessionCreate onCreate={handleSessionCreated} />
+            {!sessionId && <SessionCreate onCreate={handleSessionCreated} />}
+            {sessionId && <SessionStop />}
             {showModal && sessionId && (
                 <AccountsModal
                     sessionId={sessionId}

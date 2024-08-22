@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { SessionState } from "./types/sessionState";
 import { createInitialSessionState } from "./sessionState";
 import {SessionParticipantWithAccount} from "@/api/sessions/useSessionParticipants";
-import {Match} from "@/types/sports/match";
+import {Match, MatchResponseDTO} from "@/types/sports/match";
 
 const sessionSlice = createSlice({
     name: "sessionState",
@@ -19,7 +19,7 @@ const sessionSlice = createSlice({
         setParticipants: (state, action: PayloadAction<SessionParticipantWithAccount[]>) => {
             state.participants = action.payload;
         },
-        setMatches: (state, action: PayloadAction<Match[]>) => {
+        setMatches: (state, action: PayloadAction<MatchResponseDTO[]>) => {
             state.matches = action.payload;
         },
         clearSessionState: (state) => {

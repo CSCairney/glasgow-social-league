@@ -1,24 +1,24 @@
 import { fetchWithAuth } from "@/api/common/fetchWithAuth";
 import { useAppSelector } from "@/app/store";
-import { Match } from "@/types/sports/match";
+import { MatchRequestDTO, MatchResponseDTO} from "@/types/sports/match";
 import {SessionParticipant} from "@/types/sessions";
 
 export const useMatches = () => {
     const stateToken = useAppSelector(state => state.account.token);
 
-    const getMatchesBySessionId = async (sessionId: number): Promise<Match[]> => {
+    const getMatchesBySessionId = async (sessionId: number): Promise<MatchResponseDTO[]> => {
         return await fetchWithAuth(`/matches/session/${sessionId}`, {}, stateToken);
     };
 
-    const createMatch = async (matchData: Omit<Match, 'id'>): Promise<Match> => {
+    const createMatch = async (matchData: MatchRequestDTO): Promise<MatchResponseDTO> => {
         return await fetchWithAuth('/matches', {
             method: 'POST',
             body: JSON.stringify(matchData),
         }, stateToken);
     };
 
-    const updateMatch = async (matchId: number, matchData: Partial<Match>): Promise<Match> => {
-        return await fetchWithAuth(`/matches/${matchId}`, {
+    const updateMatch = async (matchData: MatchRequestDTO): Promise<MatchResponseDTO> => {
+        return await fetchWithAuth(`/matches`, {
             method: 'PUT',
             body: JSON.stringify(matchData),
         }, stateToken);
@@ -44,7 +44,7 @@ export const useMatches = () => {
                     lastUpdatedById: playerOne.accountId,
                     scorePlayerOne: 0, // Initial score
                     scorePlayerTwo: 0, // Initial score
-                    winnerId: null, // No winner initially
+                    winnerId: undefined, // No winner initially
                     details: '', // Details can be added later
                 });
             })
