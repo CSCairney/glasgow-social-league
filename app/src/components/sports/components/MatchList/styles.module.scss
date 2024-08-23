@@ -2,16 +2,18 @@
 
 .matchListContainer {
   display: flex;
+  align-items: center;
   flex-direction: column;
   gap: 20px;
   padding: 20px;
   background-color: $application-background;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Adds a subtle shadow for depth
+  width: 80%;
 
   @media (min-width: 768px) {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); // Ensures items fill available space, with each item being at least 200px wide
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); // Ensures items fill available space, with each item being at least 300px wide
     gap: 20px;
   }
 
@@ -23,15 +25,17 @@
 .matchItem {
   display: flex;
   flex-direction: column;
+  justify-content: space-between; // Distributes space between children
   gap: 10px;
   padding: 15px;
   background-color: $-dark-blood-red;
   border-radius: 8px;
   border: 1px solid $-light-grey;
   width: 100%; // Default to full width
+  height: 200px; // Make the items wider than they are tall
 
   @media (max-width: 768px) {
-    width: 80%; // For mobile screens, match items will take up 90% of the viewport width
+    width: 80%; // For mobile screens, match items will take up 80% of the viewport width
   }
 
   @media (min-width: 768px) {
@@ -43,22 +47,24 @@
   font-size: 1.2rem;
   font-weight: bold;
   color: $-sand;
+  text-align: center;
 }
 
 .matchScores {
   display: flex;
   justify-content: space-between;
   gap: 10px;
+  flex-grow: 1; // Makes sure the input area takes up available space
 
   input[type="number"] {
-    width: 60px;
-    padding: 5px;
+    width: 80px; // Consistent width
+    padding: 10px; // Increased padding for a better feel
     border: 1px solid $-light-grey;
     border-radius: 4px;
     background-color: $application-background;
     color: $-sand;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.2rem; // Increased font size for better readability
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Adds a subtle shadow to the input fields
   }
 }
@@ -68,6 +74,7 @@
   color: $-light-grey;
   font-style: italic;
   margin-top: 10px;
+  text-align: center;
 
   span {
     font-weight: bold;

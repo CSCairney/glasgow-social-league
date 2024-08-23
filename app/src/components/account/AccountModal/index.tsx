@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './styles.module.scss';
 import { useSessionParticipants } from "@/api/sessions/useSessionParticipants";
 import { useAppDispatch } from "@/app/store";
-import {setParticipants} from "@/redux/stores/session";
+import { setParticipants } from "@/redux/stores/session";
 
 interface AccountsModalProps {
     sessionId: number;
@@ -41,23 +41,22 @@ const AccountsModal: React.FC<AccountsModalProps> = ({ sessionId, accounts, onCl
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.modalContent}>
-                <h2>Select Participants</h2>
+                <h2 className={styles.title}>Select Participants</h2>
                 <div className={styles.accountList}>
                     {accounts.map(account => (
-                        <div key={account.id} className={styles.accountItem}>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    value={account.id}
-                                    onChange={() => handleAccountSelection(account.id)}
-                                />
-                                {account.name}
-                            </label>
-                        </div>
+                        <button
+                            key={account.id}
+                            className={`${styles.accountItem} ${selectedAccounts.includes(account.id) ? styles.selected : ''}`}
+                            onClick={() => handleAccountSelection(account.id)}
+                        >
+                            {account.name}
+                        </button>
                     ))}
                 </div>
-                <button onClick={handleStartSession} className={styles.startButton}>Start Session</button>
-                <button onClick={onClose} className={styles.closeButton}>Close</button>
+                <div className={styles.modalActions}>
+                    <button onClick={handleStartSession} className={styles.startButton}>Start Session</button>
+                    <button onClick={onClose} className={styles.closeButton}>Close</button>
+                </div>
             </div>
         </div>
     );

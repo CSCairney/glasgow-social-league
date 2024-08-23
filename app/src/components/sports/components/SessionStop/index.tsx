@@ -10,7 +10,7 @@ const SessionStop: React.FC = () => {
 
     const handleStopSession = () => {
         dispatch(clearSessionState());
-        router.refresh();
+        router.push("/");
         console.log('Session state cleared');
     };
 

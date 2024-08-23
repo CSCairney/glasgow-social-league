@@ -113,9 +113,9 @@ const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
             {matches.map(match => (
                 <div key={match.id} className={styles.matchItem}>
                     <div className={styles.matchDetails}>
-                        <span>
+                        <h4>
                             {participants.find(p => p.account.id === match.playerOneId)?.account.name} vs {participants.find(p => p.account.id === match.playerTwoId)?.account.name}
-                        </span>
+                        </h4>
                     </div>
                     <div className={styles.matchScores}>
                         <input
