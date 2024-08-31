@@ -35,7 +35,7 @@ const Avatar: React.FC<AvatarProps> = ({
     
     useEffect(() => {
         fetchAvatarAccountInformation();
-    }, [accountId, getAccountById]);
+    }, [accountId]);
 
     if (account?.profilePicture && account.name) return (
         <img
