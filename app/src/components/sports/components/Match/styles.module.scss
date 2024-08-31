@@ -10,7 +10,7 @@
   border-radius: 8px;
   border: 1px solid $-light-grey;
   width: 100%; // Default to full width
-  height: 200px; // Make the items wider than they are tall
+  height: fit-content; // Make the items wider than they are tall
 
   @media (max-width: 768px) {
     width: 80%; // For mobile screens, match items will take up 80% of the viewport width
@@ -22,15 +22,16 @@
 }
 
 .matchPlayerContainer {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-auto-rows: 60% 40%;
   align-items: center;
   justify-content: center;
 }
 
 .matchDetails {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-auto-columns: 1fr 2fr 1fr;
+  gap: 50px;
   align-items: center;
   justify-content: space-between;
   padding: 0 5% 0 5%;
@@ -60,15 +61,24 @@
   }
 }
 
-.matchWinner {
-  font-size: 1rem;
-  color: $-light-grey;
-  font-style: italic;
-  margin-top: 10px;
-  text-align: center;
+.input-field {
+  width: 100%; // Full width of the parent container
+  max-width: 400px; // Maximum width for larger screens
+  padding: 12px 16px; // Padding for better touch target on mobile
+  font-size: 16px; // Base font size
+  border: 1px solid #ccc; // Border style
+  border-radius: 4px; // Rounded corners
+  box-sizing: border-box; // Includes padding and border in the element's total width and height
 
-  span {
-    font-weight: bold;
-    color: $-sand;
+  @media (max-width: 768px) {
+    max-width: 100%; // Full width for tablets and smaller devices
+    padding: 10px 14px; // Slightly smaller padding for smaller screens
+    font-size: 15px; // Slightly smaller font size on smaller screens
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 12px; // Even smaller padding for very small screens
+    font-size: 14px; // Adjust font size for small screens
   }
 }
+

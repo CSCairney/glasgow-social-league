@@ -4,6 +4,7 @@ import {MatchResponseDTO} from "@/types/sports/match";
 import {SessionParticipantWithAccount} from "@/api/sessions/useSessionParticipants";
 import Avatar from "@/components/common/Avatar";
 import {useMatchControls} from "@/hooks/sports/match/useMatchControls";
+import {MatchFooter} from "@/components/sports/components/Match/components/MatchFooter";
 
 export type MatchProps = {
     match: MatchResponseDTO;
@@ -13,7 +14,7 @@ export type MatchProps = {
 }
 
 export const Match = ({ match, participants, handleScoreChange, localScores }: MatchProps) => {
-    const { playerOneName, playerTwoName } = useMatchControls({match, participants});
+    const { playerOneName, playerTwoName, matchWinner } = useMatchControls({match, participants});
     return (
         <div className={styles.matchItem}>
             <div className={styles.matchDetails}>
@@ -23,24 +24,24 @@ export const Match = ({ match, participants, handleScoreChange, localScores }: M
                 </div>
                 <div className={styles.matchScores}>
                     <input
+                        className={styles.inputField}
                         type="number"
                         value={localScores[match.id]?.scorePlayerOne || match.scorePlayerOne}
                         onChange={(e) => handleScoreChange(match.id, Number(e.target.value), localScores[match.id]?.scorePlayerTwo || match.scorePlayerTwo)}
                     />
                     <input
+                        className={styles.inputField}
                         type="number"
                         value={localScores[match.id]?.scorePlayerTwo || match.scorePlayerTwo}
                         onChange={(e) => handleScoreChange(match.id, localScores[match.id]?.scorePlayerOne || match.scorePlayerOne, Number(e.target.value))}
                     />
                 </div>
-                <div>
+                <div className={styles.matchPlayerContainer}>
                     {<Avatar accountId={match.playerTwoId}/> || <h4>{playerTwoName}</h4>}
                     <h6>{playerTwoName}</h6>
                 </div>
             </div>
-            <div className={styles.matchWinner}>
-                Winner: {match.winnerId ? participants.find(p => p.account.id === match.winnerId)?.account.name : 'TBD'}
-            </div>
+            <MatchFooter match={match} winnerName={matchWinner ? matchWinner : 'TBD'} />
         </div>
     )
 }
