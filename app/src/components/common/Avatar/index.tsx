@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {useAccounts} from "@/api/accounts/useAccounts";
 import {Account} from "@/types/account";
 import styles from './styles.module.scss';
-import Image from "next/image";
+import clsx from "clsx";
 
 interface AvatarProps {
     accountId: string;
@@ -15,7 +15,7 @@ interface AvatarProps {
 const Avatar: React.FC<AvatarProps> = ({
                                            accountId,
                                            imageUrl,
-                                           size = 50,
+                                           size = 70,
                                            alt = '',
                                            className = '',
                                        }) => {
@@ -38,30 +38,24 @@ const Avatar: React.FC<AvatarProps> = ({
     }, [accountId, getAccountById]);
 
     if (account?.profilePicture && account.name) return (
-        <Image
+        <img
             src={imageUrl || account?.profilePicture}
             alt={alt || `Profile picture for ${account?.name}`}
-            className={className}
-            style={{
-                width: size,
-                height: size,
-                borderRadius: '50%',
-                objectFit: 'cover',
-            }}
+            className={clsx(className, styles.container)}
+            width={size}
+            height={size}
         />
     );
 
     return (
         <div
-            className={className}
+            className={clsx(className, styles.container)}
             style={{
                 width: size,
                 height: size,
-                borderRadius: '50%',
-                objectFit: 'cover',
             }}
         >
-            <p className={styles.fallBackName}>`${account?.name.charAt(0)}`</p>
+            <p className={styles.fallBackName}>{account?.name.charAt(0)}</p>
         </div>
     )
 };
