@@ -51,8 +51,6 @@ const SelectedSport = () => {
         setShowModal(false);
     };
 
-    console.log("Session Id: ", sessionId);
-
     if (loading) {
         return <div>Loading...</div>;
     }

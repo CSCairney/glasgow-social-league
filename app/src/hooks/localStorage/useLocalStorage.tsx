@@ -4,6 +4,7 @@ import { getPersistedOverlaySettings } from "@/redux/stores/overlay/actions/over
 import React, {useEffect, useState} from "react";
 import {getPersistedAccountDetails} from "@/redux/stores/account/actions/account";
 import {getPersistedSportDetails} from "@/redux/stores/sport/actions/sport";
+import {getPersistedSessionDetails} from "@/redux/stores/session/actions/session";
 
 const useLocalStorage = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -13,6 +14,7 @@ const useLocalStorage = () => {
         await dispatch(getPersistedOverlaySettings());
         await dispatch(getPersistedAccountDetails());
         await dispatch(getPersistedSportDetails());
+        await dispatch(getPersistedSessionDetails());
     }
 
     useEffect(() => {
