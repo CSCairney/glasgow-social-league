@@ -14,9 +14,9 @@ const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
     const storedMatches = useAppSelector(state => state.session.matches);
     const participants = useAppSelector(state => state.session.participants);
     const accountId = useAppSelector(state => state.account.id);
-    const [matches, setLocalMatches] = useState<MatchResponseDTO[]>(storedMatches || []);
+    const [matches, setLocalMatches] = useState<MatchResponseDTO[]>(storedMatches);
     const [localScores, setLocalScores] = useState<{ [key: number]: { scorePlayerOne: number, scorePlayerTwo: number } }>({});
-    const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         const fetchMatches = async () => {
