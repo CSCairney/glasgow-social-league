@@ -1,11 +1,11 @@
 export type Account = {
-    id: string;  // UUID for the account
+    id: string;
     name: string;
     email: string;
-    password?: string;  // Password is optional since it might not always be needed in the frontend context
+    password?: string;
     roleId: number;
-    profilePicture?: string;  // Optional, can be null or undefined
-    createdAt: string;  // ISO date string
-    updatedAt: string;  // ISO date string
-    token?: string;  // JWT token, optional
+    profilePicture?: string;
+    createdAt: string;
+    updatedAt: string;
+    token?: string;
 };
