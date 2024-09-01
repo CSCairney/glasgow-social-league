@@ -1,0 +1,84 @@
+@import "@/styles/colors";
+
+.matchItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; // Distributes space between children
+  gap: 10px;
+  padding: 15px;
+  background-color: $-charcoal;
+  border-radius: 8px;
+  border: 1px solid $-light-grey;
+  width: 100%; // Default to full width
+  height: fit-content; // Make the items wider than they are tall
+
+  @media (max-width: 768px) {
+    width: 80%; // For mobile screens, match items will take up 80% of the viewport width
+  }
+
+  @media (min-width: 768px) {
+    width: auto; // Allow the grid to control the width on larger screens
+  }
+}
+
+.matchPlayerContainer {
+  display: grid;
+  grid-auto-rows: 60% 40%;
+  align-items: center;
+  justify-content: center;
+}
+
+.matchDetails {
+  display: grid;
+  grid-auto-columns: 1fr 2fr 1fr;
+  gap: 50px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5% 0 5%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: $-sand;
+  text-align: center;
+}
+
+
+.matchScores {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-grow: 1; // Makes sure the input area takes up available space
+
+  input[type="number"] {
+    width: 80px; // Consistent width
+    padding: 10px; // Increased padding for a better feel
+    border: 1px solid $-light-grey;
+    border-radius: 4px;
+    background-color: $application-background;
+    color: $-sand;
+    text-align: center;
+    font-size: 1.2rem; // Increased font size for better readability
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Adds a subtle shadow to the input fields
+  }
+}
+
+.input-field {
+  width: 100%; // Full width of the parent container
+  max-width: 400px; // Maximum width for larger screens
+  padding: 12px 16px; // Padding for better touch target on mobile
+  font-size: 16px; // Base font size
+  border: 1px solid #ccc; // Border style
+  border-radius: 4px; // Rounded corners
+  box-sizing: border-box; // Includes padding and border in the element's total width and height
+
+  @media (max-width: 768px) {
+    max-width: 100%; // Full width for tablets and smaller devices
+    padding: 10px 14px; // Slightly smaller padding for smaller screens
+    font-size: 15px; // Slightly smaller font size on smaller screens
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 12px; // Even smaller padding for very small screens
+    font-size: 14px; // Adjust font size for small screens
+  }
+}
+

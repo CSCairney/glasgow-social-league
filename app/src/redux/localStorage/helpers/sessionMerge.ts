@@ -7,6 +7,7 @@ export function createDefaultSessionSettings(): SessionState {
         sessionId: null,
         participants: [],
         matches: [],
+        availableAccounts: []
     };
 }
 

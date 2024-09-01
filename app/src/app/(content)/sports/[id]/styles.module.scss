@@ -1,11 +1,11 @@
-@import "src/styles/colors";
+@import "@/styles/colors";
 
 .container {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
   align-items: center;
-  padding: 1rem;
   background-color: $application-background;
 
   // Media query for mobile devices
@@ -14,13 +14,13 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    gap: 1rem;
   }
 }
 
 .title {
   font-size: 2rem;
   color: $-sand;
-  margin-right: 2rem;
 
   // Center the title on mobile
   @media (max-width: 768px) {

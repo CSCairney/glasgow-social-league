@@ -1,40 +1,50 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
-import { useAppSelector } from "@/app/store";
+import {RootState, useAppDispatch, useAppSelector} from "@/app/store";
 import { useAccounts } from "@/api/accounts/useAccounts";
 import SessionCreate from "../../../../components/sports/components/SessionCreate";
 import MatchList from "../../../../components/sports/components/MatchList";
 import AccountsModal from "@/components/account/AccountModal";
 import SessionStop from "@/components/sports/components/SessionStop";
+import {Account} from "@/types/account";
+import { toast } from "react-toastify";
+import {SessionRecent} from "@/components/sports/components/SessionRecent";
+import {setAvailableAccounts} from "@/redux/stores/session";
 
 const SelectedSport = () => {
-    const selectedSport = useAppSelector(state => state.sport.name);
-    const storedSessionId = useAppSelector(state => state.session.sessionId);
+    const selectedSport = useAppSelector((state: RootState) => state.sport.name);
+    const storedSessionId = useAppSelector((state: RootState) => state.session.sessionId);
+    const [loading, setLoading] = useState(true);
     const [sessionId, setSessionId] = useState<number | null>(storedSessionId);
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [accounts, setAccounts] = useState<any[]>([]);
+    const [accounts, setAccounts] = useState<Account[]>([]);
+    const dispatch = useAppDispatch();
 
     const { getAllAccounts } = useAccounts();
 
     useEffect(() => {
-        // Fetch accounts when the component mounts
         const fetchAccounts = async () => {
+            setLoading(true);
             try {
                 const accountsData = await getAllAccounts();
                 setAccounts(accountsData);
+                dispatch(setAvailableAccounts(accountsData));
             } catch (error) {
                 console.error("Error fetching accounts:", error);
             }
+            setLoading(false);
         };
 
         fetchAccounts();
     }, []);
 
     useEffect(() => {
+        setLoading(true);
         if (storedSessionId) {
             setSessionId(storedSessionId);
         }
+        setLoading(false);
     }, [storedSessionId]);
 
     const handleSessionCreated = (newSessionId: number) => {
@@ -46,20 +56,39 @@ const SelectedSport = () => {
         setShowModal(false);
     };
 
+    const handleModalCloseWithSession = () => {
+        setShowModal(false);
+        toast.info("Session Created!")
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!sessionId) return (
+        <div className={styles.container}>
+            <div className={styles.title}>
+                <h4>{selectedSport}</h4>
+            </div>
+            <SessionCreate onCreate={handleSessionCreated}/>
+            <SessionRecent />
+        </div>
+    );
+
     return (
         <div className={styles.container}>
             <h4 className={styles.title}>{selectedSport}</h4>
-            {!sessionId && <SessionCreate onCreate={handleSessionCreated} />}
-            {sessionId && <SessionStop />}
+            {sessionId && <SessionStop/>}
             {showModal && sessionId && (
                 <AccountsModal
                     sessionId={sessionId}
-                    accounts={accounts} // Pass the accounts to the modal
+                    accounts={accounts}
                     onClose={handleModalClose}
+                    onCloseWithSession={handleModalCloseWithSession}
                 />
             )}
             {sessionId && (
-                <MatchList sessionId={sessionId} />
+                <MatchList sessionId={sessionId}/>
             )}
         </div>
     );

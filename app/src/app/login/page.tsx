@@ -1,14 +1,16 @@
 "use client";
 import styles from './page.module.scss';
 import { useAccounts } from "@/api/accounts/useAccounts";
-import { useState} from "react";
-import useToast from "@/hooks/notifications/useToast";
+import {useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import {setName, setToken, setEmail, setId} from "@/redux/stores/account";
-import {useAppDispatch } from "@/app/store";
+import {RootState, useAppDispatch, useAppSelector} from "@/app/store";
+import {toast} from "react-toastify";
+import {Account} from "@/types/account";
 
 export default function Login() {
-    const { login } = useAccounts();
+    const token = useAppSelector((state: RootState) => state.account.token);
+    const { login, getAllAccounts } = useAccounts();
     const router = useRouter();
     const [email, setFormEmail] = useState<string>('');
     const [password, setFormPassword] = useState<string>('');
@@ -16,7 +18,28 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const dispatch = useAppDispatch();
 
-    const { showInfo, showError } = useToast();
+    const testToken = async (): Promise<void> => {
+        try {
+            const accounts = await getAllAccounts();
+            // You can check the validity of the token based on the accounts data.
+            // If token is invalid, you might want to handle it here.
+            if (accounts && accounts.length > 0) {
+                console.log("User already logged in.");
+            } else {
+                toast.dark('Token is invalid or no accounts found');
+            }
+        } catch (e) {
+            console.error('Failed to fetch accounts', e);
+            toast.error('Invalid token. Please log in again.');
+            router.push('/login');
+        }
+    }
+
+    useEffect(() => {
+        if (token) {
+            testToken();
+        }
+    }, [token, router]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,10 +52,10 @@ export default function Login() {
             dispatch(setName(response.name));
             dispatch(setEmail(response.email));
             dispatch(setId(response.id));
-            showInfo("Successfully logged in!");
+            toast.info("Successfully logged in!");
             router.push("/");
         } catch (err) {
-            showError('Login failed. Please check your credentials and try again.');
+            toast.error('Login failed. Please check your credentials and try again.');
             console.error(error);
         } finally {
             setIsLoading(false);

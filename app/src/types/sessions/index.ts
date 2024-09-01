@@ -20,3 +20,11 @@ export type SessionParticipant = {
     sessionId: number;
     accountId: string;
 };
+
+
+export type SessionRecentTableData = {
+    date: string;
+    createdBy: string;
+    lastUpdatedBy: string;
+    seasonId: number;
+}

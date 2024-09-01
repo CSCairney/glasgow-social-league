@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, useEffect } from "react";
+import {ReactNode, useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/app/store";
 import useLocalStorage from "@/hooks/localStorage/useLocalStorage";
@@ -11,12 +11,12 @@ interface AuthWrapperProps {
 }
 
 export default function AuthWrapper({ children }: AuthWrapperProps) {
-    useLocalStorage();
+    const { loading } = useLocalStorage();
     const router = useRouter();
     const token = useAppSelector((state) => state.account.token);
 
     useEffect(() => {
-        if (!token) {
+        if (!token && !loading) {
             router.push("/login");
         }
     }, [token, router]);

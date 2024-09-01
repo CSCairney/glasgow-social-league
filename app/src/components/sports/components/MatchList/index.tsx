@@ -1,24 +1,28 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "./styles.module.scss";
 import { useAppSelector, useAppDispatch } from "@/app/store";
 import { SessionParticipantWithAccount } from "@/api/sessions/useSessionParticipants";
 import { useMatches } from "@/api/sports/useMatches";
-import { MatchRequestDTO, MatchResponseDTO} from "@/types/sports/match";
+import { MatchRequestDTO, MatchResponseDTO } from "@/types/sports/match";
 import { setMatches as setMatchesInStore } from "@/redux/stores/session";
+import debounce from 'lodash/debounce';
+import {Match} from "@/components/sports/components/Match";
+import Loader from "@/components/common/Loader";
 
 const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
     const { createMatch, updateMatch, getMatchesBySessionId } = useMatches();
     const storedMatches = useAppSelector(state => state.session.matches);
     const participants = useAppSelector(state => state.session.participants);
     const accountId = useAppSelector(state => state.account.id);
-    const [matches, setLocalMatches] = useState<MatchResponseDTO[]>(storedMatches || []);
-    const dispatch = useAppDispatch();
+    const [loading, setLoading] = useState(false);
+    const [matches, setLocalMatches] = useState<MatchResponseDTO[]>(storedMatches);
+    const [localScores, setLocalScores] = useState<{ [key: number]: { scorePlayerOne: number, scorePlayerTwo: number } }>({});
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         const fetchMatches = async () => {
             if (storedMatches.length > 0) {
-                // Use matches from state if available
                 setLocalMatches(storedMatches);
             } else {
                 const matchesData = await getMatchesBySessionId(sessionId);
@@ -35,6 +39,7 @@ const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
     }, [sessionId, participants, storedMatches]);
 
     const generateMatches = async (participantsList: SessionParticipantWithAccount[]) => {
+        setLoading(true);
         const newMatches: MatchResponseDTO[] = [];
         for (let i = 0; i < participantsList.length; i++) {
             for (let j = i + 1; j < participantsList.length; j++) {
@@ -56,78 +61,71 @@ const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
         }
         setLocalMatches(newMatches);
         dispatch(setMatchesInStore(newMatches));
+        setLoading(false);
     };
 
-    const handleScoreUpdate = async (matchId: number, scorePlayerOne: number, scorePlayerTwo: number) => {
-        if (!matchId) {
-            console.error("Match ID is null or undefined");
-            return;
-        }
+    const debouncedUpdateMatch = useCallback(
+        debounce(async (matchId: number, scorePlayerOne: number, scorePlayerTwo: number, winnerId: string) => {
+            try {
+                const match = matches.find(match => match.id === matchId);
+                if (!match) {
+                    console.error("Match not found for given ID:", matchId);
+                    return;
+                }
+
+                const updateMatchRequestDTO: MatchRequestDTO = {
+                    createdById: accountId!.toString(),
+                    seasonId: 6,
+                    sessionId: sessionId,
+                    id: matchId,
+                    playerOneId: match.playerOneId,
+                    playerTwoId: match.playerTwoId,
+                    scorePlayerOne,
+                    scorePlayerTwo,
+                    winnerId,
+                };
+
+                await updateMatch(updateMatchRequestDTO);
+
+                const updatedMatches = matches.map(m =>
+                    m.id === matchId ? { ...m, scorePlayerOne, scorePlayerTwo, winnerId } : m
+                );
+
+                setLocalMatches(updatedMatches);
+                dispatch(setMatchesInStore(updatedMatches));
+            } catch (error) {
+                console.error('Error updating match:', error);
+            }
+        }, 5000),
+        [matches, dispatch, accountId, sessionId, updateMatch]
+    );
+
+    const handleScoreChange = (matchId: number, newScorePlayerOne: number, newScorePlayerTwo: number) => {
+        setLocalScores(prevScores => ({
+            ...prevScores,
+            [matchId]: { scorePlayerOne: newScorePlayerOne, scorePlayerTwo: newScorePlayerTwo }
+        }));
 
         const match = matches.find(match => match.id === matchId);
-        if (!match) {
-            console.error("Match not found for given ID:", matchId);
-            return;
-        }
-
-        const winnerId = scorePlayerOne > scorePlayerTwo ? match.playerOneId : match.playerTwoId;
-        const playerOneId = match.playerOneId;
-        const playerTwoId = match.playerTwoId;
-
-        try {
-            const updateMatchRequestDTO: MatchRequestDTO = {
-                createdById: accountId!.toString(),
-                seasonId: 6,
-                sessionId: sessionId,
-                id: matchId,
-                playerOneId,
-                playerTwoId,
-                scorePlayerOne,
-                scorePlayerTwo,
-                winnerId
-            }
-
-
-            await updateMatch(updateMatchRequestDTO);
-            const updatedMatches = matches.map(m =>
-                m.id === matchId ? { ...m, scorePlayerOne, scorePlayerTwo, winnerId } : m
-            );
-            setLocalMatches(updatedMatches);
-            dispatch(setMatchesInStore(updatedMatches));
-        } catch (error) {
-            console.error('Error updating match:', error);
+        if (match) {
+            const winnerId = newScorePlayerOne > newScorePlayerTwo ? match.playerOneId : match.playerTwoId;
+            debouncedUpdateMatch(matchId, newScorePlayerOne, newScorePlayerTwo, winnerId!);
         }
     };
 
-
+    if (loading) return (
+        <div className={styles.loadingContainer}>
+            <Loader/>
+        </div>
+    )
 
     return (
-        <div className={styles.matchListContainer}>
-            {matches.map(match => (
-                <div key={match.id} className={styles.matchItem}>
-                    <div className={styles.matchDetails}>
-                        <span>
-                            {participants.find(p => p.account.id === match.playerOneId)?.account.name} vs {participants.find(p => p.account.id === match.playerTwoId)?.account.name}
-                        </span>
-                    </div>
-                    <div className={styles.matchScores}>
-                        <input
-                            type="number"
-                            value={match.scorePlayerOne}
-                            onChange={(e) => handleScoreUpdate(match.id, Number(e.target.value), match.scorePlayerTwo)}
-                        />
-                        <input
-                            type="number"
-                            value={match.scorePlayerTwo}
-                            onChange={(e) => handleScoreUpdate(match.id, match.scorePlayerOne, Number(e.target.value))}
-                        />
-                    </div>
-                    <div className={styles.matchWinner}>
-                        Winner: {match.winnerId ? participants.find(p => p.account.id === match.winnerId)?.account.name : 'TBD'}
-                    </div>
-                </div>
-            ))}
-        </div>
+            <div className={styles.matchListContainer}>
+                {matches.map(match => (
+                    <Match key={match.id} match={match} participants={participants}
+                           handleScoreChange={handleScoreChange} localScores={localScores}/>
+                ))}
+            </div>
     );
 };
 

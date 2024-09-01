@@ -1,0 +1,28 @@
+@import "@/styles/colors";
+
+.matchFooterContainer {
+  display: flex;
+  flex-direction: column;
+  height:fit-content;
+  border: #ECECEC 1px solid;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #661b1c;
+  color: $-light-grey;
+  font-style: italic;
+  text-align: center;
+  padding: 1%;
+
+  span {
+    font-weight: bold;
+    color: $-sand;
+  }
+}
+
+.inProgress {
+
+}
+
+.complete {
+
+}

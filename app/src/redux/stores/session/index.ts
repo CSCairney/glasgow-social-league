@@ -5,6 +5,7 @@ export const {
     setSessionId,
     setParticipants,
     setMatches,
+    setAvailableAccounts,
     clearSessionState
 } = sessionSlice.actions;
 
