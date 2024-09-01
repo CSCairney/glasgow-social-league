@@ -5,5 +5,6 @@ export function createInitialSessionState(): SessionState {
         sessionId: null,
         participants: [],
         matches: [],
+        availableAccounts: []
     };
 }

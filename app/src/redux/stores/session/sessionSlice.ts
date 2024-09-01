@@ -3,6 +3,7 @@ import { SessionState } from "./types/sessionState";
 import { createInitialSessionState } from "./sessionState";
 import {SessionParticipantWithAccount} from "@/api/sessions/useSessionParticipants";
 import {Match, MatchResponseDTO} from "@/types/sports/match";
+import {Account} from "@/types/account";
 
 const sessionSlice = createSlice({
     name: "sessionState",
@@ -21,6 +22,9 @@ const sessionSlice = createSlice({
         },
         setMatches: (state, action: PayloadAction<MatchResponseDTO[]>) => {
             state.matches = action.payload;
+        },
+        setAvailableAccounts:(state, action: PayloadAction<Account[]>) => {
+          state.availableAccounts = action.payload;
         },
         clearSessionState: (state) => {
             state.sessionId = null;

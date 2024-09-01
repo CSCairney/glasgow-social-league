@@ -5,42 +5,38 @@ import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { useAccounts } from "@/api/accounts/useAccounts";
 import styles from "./styles.module.scss";
-import { Account } from "@/types/account";
 import clsx from "clsx";
 import Loader from "@/components/common/Loader";
 import {formatDateString} from "@/helpers/dates";
+import {useAppSelector} from "@/app/store";
+import {Account} from "@/types/account";
 
 export const SessionRecent = () => {
-    const { getAccountById } = useAccounts();
     const [loading, setLoading] = useState(false);
     const [rowData, setRowData] = useState<SessionRecentTableData[]>([]);
+    const sessionAvailableAccounts = useAppSelector(state => state.session.availableAccounts);
     const [columnDefs, setColumnDefs] = useState<any[]>([]);
     const { getAllSessions } = useSessions();
 
-    const getAccount = async (id: string): Promise<string> => {
-        let accountName = "";
-        try {
-            const account: Account = await getAccountById(id);
-            if (account.id) {
-                accountName = account.name;
-            }
-        } catch (error) {
-            console.error("Error getting account:", error);
-        }
-        return accountName;
-    };
+    const retrieveAccountName = (id: string) => {
+        const account = sessionAvailableAccounts.find(
+            (account: Account) => account.id === id
+        );
+
+        return account?.name;
+    }
 
     const updateRowData = async (sessions: Session[]): Promise<void> => {
         const data: SessionRecentTableData[] = await Promise.all(
             sessions.map(async (session) => ({
                 date: formatDateString(session.date),
-                createdBy: await getAccount(session.createdBy),
-                lastUpdatedBy: await getAccount(session.lastUpdatedBy),
+                createdBy: retrieveAccountName(session.createdBy) || "",
+                lastUpdatedBy: retrieveAccountName(session.lastUpdatedBy) || "",
                 seasonId: session.seasonId,
             }))
         );
+        console.table(data);
         setRowData(data);
     };
 
@@ -51,6 +47,7 @@ export const SessionRecent = () => {
                 .map((key) => ({
                     field: key,
                 }));
+            console.table(columns)
             setColumnDefs(columns);
         }
     };

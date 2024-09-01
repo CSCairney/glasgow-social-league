@@ -4,7 +4,14 @@ import { RootState } from "@/app/store";
 import { settingsPersistenceService } from "../persistence";
 import {clearAccountState, setAccountState, setEmail, setId, setName, setToken} from "@/redux/stores/account";
 import {clearSportState, setSportDescription, setSportId, setSportName, setSportState} from "@/redux/stores/sport";
-import {clearSessionState, setMatches, setParticipants, setSessionId, setSessionState} from "@/redux/stores/session";
+import {
+    clearSessionState,
+    setAvailableAccounts,
+    setMatches,
+    setParticipants,
+    setSessionId,
+    setSessionState
+} from "@/redux/stores/session";
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -72,6 +79,7 @@ listenerMiddleware.startListening({
         setSessionId,
         setParticipants,
         setMatches,
+        setAvailableAccounts,
         clearSessionState
     ),
     effect: (_action, listenerApi) => {
