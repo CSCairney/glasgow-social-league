@@ -4,12 +4,15 @@ import { IoHomeOutline } from "react-icons/io5";
 import Navlink from "./NavLink";
 import Link from "next/link";
 import { NavLinks } from "@/components/common/SideNav/types/nav";
+import Avatar from "@/components/common/Avatar";
+import {RootState, useAppSelector} from "@/app/store";
 
 type SideNavProps = NavLinks & {
     nested?: boolean;
 };
 
 const SideNav: React.FC<SideNavProps> = ({ links, nested = false }) => {
+    const accountId = useAppSelector((state: RootState) => state.account.id);
     return (
         <div className={nested ? styles.sideNavNested : styles.sideNav}>
             {!nested && (
@@ -29,6 +32,9 @@ const SideNav: React.FC<SideNavProps> = ({ links, nested = false }) => {
                     />
                 ))}
             </div>
+            {!nested && accountId && (
+                <Avatar className={styles.avatar} accountId={accountId.toString()} size={20} />
+            )}
         </div>
     );
 };

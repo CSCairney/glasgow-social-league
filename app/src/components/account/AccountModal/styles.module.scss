@@ -22,8 +22,8 @@
   background: $-dark-blood-red;
   padding: 20px;
   border-radius: 10px;
-  width: 100%;
-  max-width: 500px;
+  width: fit-content;
+  min-width: 30vw;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 

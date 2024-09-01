@@ -4,10 +4,10 @@
     background-color: $application-navigation-background;
     color: white;
     height: 100%;
+    min-height: 10vh;
     width: 100%;
-    border-right: white 1px solid;
     display: grid;
-    grid-template-columns: 10% 80%;
+    grid-template-columns: 1fr 4fr 1fr;
     gap: 5%;
     align-content: center;
 
@@ -64,7 +64,7 @@
 
     @media (max-width: 768px) {
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
     }
 
     &__links {
@@ -72,6 +72,10 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
-        padding-left: 10px;
     }
 }
+
+.avatar {
+    align-self: center;
+}
+

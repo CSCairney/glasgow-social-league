@@ -55,11 +55,17 @@ const SelectedSport = () => {
         return <div>Loading...</div>;
     }
 
+    if (!sessionId) return (
+        <div className={styles.container}>
+            <h4 className={styles.title}>{selectedSport}</h4>
+            <SessionCreate onCreate={handleSessionCreated}/>
+        </div>
+    );
+
     return (
         <div className={styles.container}>
             <h4 className={styles.title}>{selectedSport}</h4>
-            {!sessionId && <SessionCreate onCreate={handleSessionCreated} />}
-            {sessionId && <SessionStop />}
+            {sessionId && <SessionStop/>}
             {showModal && sessionId && (
                 <AccountsModal
                     sessionId={sessionId}
@@ -68,7 +74,7 @@ const SelectedSport = () => {
                 />
             )}
             {sessionId && (
-                <MatchList sessionId={sessionId} />
+                <MatchList sessionId={sessionId}/>
             )}
         </div>
     );
