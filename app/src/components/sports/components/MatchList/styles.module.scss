@@ -21,3 +21,12 @@
     grid-template-columns: repeat(3, 1fr); // 3 columns for larger screens
   }
 }
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+  min-height: 40vh;
+}
+

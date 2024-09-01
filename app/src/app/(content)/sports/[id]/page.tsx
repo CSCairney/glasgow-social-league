@@ -9,6 +9,7 @@ import AccountsModal from "@/components/account/AccountModal";
 import SessionStop from "@/components/sports/components/SessionStop";
 import {Account} from "@/types/account";
 import { toast } from "react-toastify";
+import {SessionRecent} from "@/components/sports/components/SessionRecent";
 
 const SelectedSport = () => {
     const selectedSport = useAppSelector((state: RootState) => state.sport.name);
@@ -63,8 +64,11 @@ const SelectedSport = () => {
 
     if (!sessionId) return (
         <div className={styles.container}>
-            <h4 className={styles.title}>{selectedSport}</h4>
+            <div className={styles.title}>
+                <h4>{selectedSport}</h4>
+            </div>
             <SessionCreate onCreate={handleSessionCreated}/>
+            <SessionRecent />
         </div>
     );
 

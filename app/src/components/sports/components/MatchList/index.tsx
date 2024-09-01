@@ -8,12 +8,14 @@ import { MatchRequestDTO, MatchResponseDTO } from "@/types/sports/match";
 import { setMatches as setMatchesInStore } from "@/redux/stores/session";
 import debounce from 'lodash/debounce';
 import {Match} from "@/components/sports/components/Match";
+import Loader from "@/components/common/Loader";
 
 const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
     const { createMatch, updateMatch, getMatchesBySessionId } = useMatches();
     const storedMatches = useAppSelector(state => state.session.matches);
     const participants = useAppSelector(state => state.session.participants);
     const accountId = useAppSelector(state => state.account.id);
+    const [loading, setLoading] = useState(false);
     const [matches, setLocalMatches] = useState<MatchResponseDTO[]>(storedMatches);
     const [localScores, setLocalScores] = useState<{ [key: number]: { scorePlayerOne: number, scorePlayerTwo: number } }>({});
     const dispatch = useAppDispatch()
@@ -37,6 +39,7 @@ const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
     }, [sessionId, participants, storedMatches]);
 
     const generateMatches = async (participantsList: SessionParticipantWithAccount[]) => {
+        setLoading(true);
         const newMatches: MatchResponseDTO[] = [];
         for (let i = 0; i < participantsList.length; i++) {
             for (let j = i + 1; j < participantsList.length; j++) {
@@ -58,6 +61,7 @@ const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
         }
         setLocalMatches(newMatches);
         dispatch(setMatchesInStore(newMatches));
+        setLoading(false);
     };
 
     const debouncedUpdateMatch = useCallback(
@@ -109,12 +113,19 @@ const MatchList: React.FC<{ sessionId: number }> = ({ sessionId }) => {
         }
     };
 
-    return (
-        <div className={styles.matchListContainer}>
-            {matches.map(match => (
-                <Match key={match.id} match={match} participants={participants} handleScoreChange={handleScoreChange} localScores={localScores} />
-            ))}
+    if (loading) return (
+        <div className={styles.loadingContainer}>
+            <Loader/>
         </div>
+    )
+
+    return (
+            <div className={styles.matchListContainer}>
+                {matches.map(match => (
+                    <Match key={match.id} match={match} participants={participants}
+                           handleScoreChange={handleScoreChange} localScores={localScores}/>
+                ))}
+            </div>
     );
 };
 

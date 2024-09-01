@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 2rem;
   align-items: center;
   background-color: $application-background;
 
@@ -13,13 +14,13 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    gap: 1rem;
   }
 }
 
 .title {
   font-size: 2rem;
   color: $-sand;
-  margin-right: 2rem;
 
   // Center the title on mobile
   @media (max-width: 768px) {
