@@ -22,9 +22,10 @@ export default function RootLayout({
                   <AuthWrapper>
                       {children}
                       <ToastContainer
+                        stacked={true}
                         autoClose={2000}
                         hideProgressBar={false}
-                        closeOnClick={false}
+                        closeOnClick={true}
                         pauseOnHover={false}
                         draggable={false}
                       />
