@@ -1,6 +1,8 @@
 export const fetchWithAuth = async (url: string, options: RequestInit = {}, token: string) => {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+
     try {
-        const response = await fetch(`http://localhost:8080${url}`, {
+        const response = await fetch(`${baseUrl}${url}`, {
             ...options,
             mode: 'cors',
             headers: {
@@ -14,7 +16,7 @@ export const fetchWithAuth = async (url: string, options: RequestInit = {}, toke
             if (response.status === 401) {
                 // Handle unauthorized access
                 console.error('Unauthorized access - handle accordingly');
-                // Optionally, you might want to redirect to login or clear session storage here
+                // Optionally, you might want to redirect to log in or clear session storage here
             } else if (response.status === 403) {
                 // Handle forbidden access
                 console.error('Forbidden access - insufficient permissions');
@@ -32,8 +34,10 @@ export const fetchWithAuth = async (url: string, options: RequestInit = {}, toke
 };
 
 export const fetchWithoutAuth = async (url: string, options: RequestInit = {}) => {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+
     try {
-        const response = await fetch(`http://localhost:8080${url}`, {
+        const response = await fetch(`${baseUrl}${url}`, {
             ...options,
             mode: 'cors',
             headers: {
