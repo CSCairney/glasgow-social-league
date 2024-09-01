@@ -8,6 +8,7 @@ import MatchList from "../../../../components/sports/components/MatchList";
 import AccountsModal from "@/components/account/AccountModal";
 import SessionStop from "@/components/sports/components/SessionStop";
 import {Account} from "@/types/account";
+import { toast } from "react-toastify";
 
 const SelectedSport = () => {
     const selectedSport = useAppSelector((state: RootState) => state.sport.name);
@@ -51,6 +52,11 @@ const SelectedSport = () => {
         setShowModal(false);
     };
 
+    const handleModalCloseWithSession = () => {
+        setShowModal(false);
+        toast.info("Session Created!")
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -71,6 +77,7 @@ const SelectedSport = () => {
                     sessionId={sessionId}
                     accounts={accounts}
                     onClose={handleModalClose}
+                    onCloseWithSession={handleModalCloseWithSession}
                 />
             )}
             {sessionId && (

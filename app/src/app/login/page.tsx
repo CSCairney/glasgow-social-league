@@ -1,13 +1,14 @@
 "use client";
 import styles from './page.module.scss';
 import { useAccounts } from "@/api/accounts/useAccounts";
-import { useState} from "react";
-import useToast from "@/hooks/notifications/useToast";
+import {useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import {setName, setToken, setEmail, setId} from "@/redux/stores/account";
-import {useAppDispatch } from "@/app/store";
+import {RootState, useAppDispatch, useAppSelector} from "@/app/store";
+import {toast} from "react-toastify";
 
 export default function Login() {
+    const token = useAppSelector((state: RootState) => state.account.token);
     const { login } = useAccounts();
     const router = useRouter();
     const [email, setFormEmail] = useState<string>('');
@@ -16,7 +17,11 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const dispatch = useAppDispatch();
 
-    const { showInfo, showError } = useToast();
+    useEffect(() => {
+        if (token) {
+            router.push("/");
+        }
+    }, [token, router]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,10 +34,10 @@ export default function Login() {
             dispatch(setName(response.name));
             dispatch(setEmail(response.email));
             dispatch(setId(response.id));
-            showInfo("Successfully logged in!");
+            toast.info("Successfully logged in!");
             router.push("/");
         } catch (err) {
-            showError('Login failed. Please check your credentials and try again.');
+            toast.error('Login failed. Please check your credentials and try again.');
             console.error(error);
         } finally {
             setIsLoading(false);

@@ -8,9 +8,10 @@ interface AccountsModalProps {
     sessionId: number;
     accounts: any[];
     onClose: () => void;
+    onCloseWithSession: () => void;
 }
 
-const AccountsModal: React.FC<AccountsModalProps> = ({ sessionId, accounts, onClose }) => {
+const AccountsModal: React.FC<AccountsModalProps> = ({ sessionId, accounts, onClose, onCloseWithSession }) => {
     const { addParticipantToSession } = useSessionParticipants();
     const [selectedAccounts, setSelectedAccounts] = useState<string[]>([]);
     const dispatch = useAppDispatch();
@@ -32,7 +33,7 @@ const AccountsModal: React.FC<AccountsModalProps> = ({ sessionId, accounts, onCl
             );
             console.log('Session started with participants:', selectedAccounts);
             dispatch(setParticipants(participants));
-            onClose();
+            onCloseWithSession();
         } catch (error) {
             console.error('Error starting session:', error);
         }
