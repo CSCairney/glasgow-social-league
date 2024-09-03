@@ -71,7 +71,7 @@ const SelectedSport = () => {
                 <h4>{selectedSport}</h4>
             </div>
             <SessionCreate onCreate={handleSessionCreated}/>
-            <SessionRecent />
+            <SessionRecent type={"card"} />
         </div>
     );
 
