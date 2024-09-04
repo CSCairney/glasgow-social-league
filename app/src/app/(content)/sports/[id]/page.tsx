@@ -71,7 +71,10 @@ const SelectedSport = () => {
                 <h4>{selectedSport}</h4>
             </div>
             <SessionCreate onCreate={handleSessionCreated}/>
-            <SessionRecent type={"card"} />
+            <div className={styles.title}>
+                <h4>Recent Sessions</h4>
+            </div>
+            <SessionRecent type={"card"}/>
         </div>
     );
 
