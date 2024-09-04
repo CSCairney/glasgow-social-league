@@ -9,7 +9,7 @@ import styles from "./styles.module.scss";
 import clsx from "clsx";
 import Loader from "@/components/common/Loader";
 import {formatDateString} from "@/helpers/dates";
-import {useAppSelector} from "@/app/store";
+import {RootState, useAppSelector} from "@/app/store";
 import {SessionRecentCard} from "@/components/sports/components/SessionRecentCard";
 import {retrieveAccountName} from "@/helpers/accounts";
 
@@ -22,6 +22,7 @@ export const SessionRecent = ({ type }:SessionRecentProps) => {
     const [rowData, setRowData] = useState<SessionRecentTableData[]>([]);
     const [sessions, setSession] = useState<Session[]>();
     const sessionAvailableAccounts = useAppSelector(state => state.session.availableAccounts);
+    const selectedSportId = useAppSelector((state: RootState) => state.sport.id);
     const [columnDefs, setColumnDefs] = useState<any[]>([]);
     const { getAllSessions } = useSessions();
 
@@ -51,10 +52,10 @@ export const SessionRecent = ({ type }:SessionRecentProps) => {
     };
 
 
-    const fetchAllSessions = async () => {
+    const fetchAllSessions = async (sportId: number) => {
         setLoading(true);
         try {
-            const sessions = await getAllSessions();  // Expecting a paginated response
+            const sessions = await getAllSessions({ page: 0, size: 10, sportId: sportId, includeParticipants: true });
             if (sessions.content.length > 0 && type === "grid") {
                 await updateRowData(sessions.content);
                 updateColumnData(sessions.content);
@@ -70,8 +71,10 @@ export const SessionRecent = ({ type }:SessionRecentProps) => {
 
 
     useEffect(() => {
-        fetchAllSessions();
-    }, []);
+        if (selectedSportId) {
+            fetchAllSessions(selectedSportId);
+        }
+    }, [selectedSportId]);
 
     if (loading) return (
         <div className={styles.container}>

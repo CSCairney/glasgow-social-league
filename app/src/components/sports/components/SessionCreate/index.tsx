@@ -11,8 +11,6 @@ const SessionCreate: React.FC<{ onCreate: (sessionId: number) => void }> = ({ on
     const accountId = useAppSelector((state: RootState) => state.account.id);
     const dispatch = useAppDispatch();
 
-    console.log("Session created for sport Id: ", sportId);
-
     const handleCreateSession = async () => {
         try {
             // Clear previous session state before creating a new session

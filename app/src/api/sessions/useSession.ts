@@ -22,13 +22,14 @@ export const useSessions = () => {
             query.append('sportId', params.sportId.toString());
         }
 
-        // Create the full URL with the query string
+        if (params.includeParticipants !== undefined) {
+            query.append('includeParticipants', params.includeParticipants.toString());
+        }
+
         const url = `/sessions?${query.toString()}`;
 
-        // Use fetchWithAuth to make the API call
         try {
             const response = await fetchWithAuth(url, {}, stateToken);
-            // @ts-ignore
             return response as Page<Session>;
         } catch (error) {
             console.error('Error fetching sessions:', error);
