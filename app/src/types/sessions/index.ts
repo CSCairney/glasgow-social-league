@@ -28,3 +28,10 @@ export type SessionRecentTableData = {
     lastUpdatedBy: string;
     seasonId: number;
 }
+
+
+export type SessionQueryParams = {
+    page?: number;
+    size?: number;
+    sportId?: number;
+};

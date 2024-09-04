@@ -5,7 +5,7 @@
   background-color: $application-navigation-background;
   grid-template-columns: 1fr auto;
   align-items: center;
-  padding:10px;
+  padding: 10px;
   gap: 20px;
   border: 1px solid $-sand;
 }
@@ -27,6 +27,22 @@
   color: #666;
 }
 
+.participants {
+  margin-top: 10px;
+
+  strong {
+    color: white;
+    display: block;
+    margin-bottom: 5px;
+  }
+}
+
+.participantAvatars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
 .avatar {
   display: flex;
   justify-content: center;
@@ -44,4 +60,3 @@
     color: white;
   }
 }
-

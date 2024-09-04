@@ -1,7 +1,7 @@
 import { useSessions } from "@/api/sessions/useSession";
 import { toast } from "react-toastify";
 import { Session, SessionRecentTableData } from "@/types/sessions";
-import { useEffect, useState } from "react";
+import {Suspense, useEffect, useState} from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -54,19 +54,20 @@ export const SessionRecent = ({ type }:SessionRecentProps) => {
     const fetchAllSessions = async () => {
         setLoading(true);
         try {
-            const sessions = await getAllSessions();
-            if (sessions.length > 0 && type === "grid") {
-                await updateRowData(sessions);
-                updateColumnData(sessions);
+            const sessions = await getAllSessions();  // Expecting a paginated response
+            if (sessions.content.length > 0 && type === "grid") {
+                await updateRowData(sessions.content);
+                updateColumnData(sessions.content);
             }
-            if (sessions.length > 0 && type === "card") {
-                setSession(sessions);
+            if (sessions.content.length > 0 && type === "card") {
+                setSession(sessions.content);
             }
         } catch (error) {
             toast.error(`Failed to fetch recent sessions`);
         }
         setLoading(false);
     };
+
 
     useEffect(() => {
         fetchAllSessions();
@@ -88,16 +89,22 @@ export const SessionRecent = ({ type }:SessionRecentProps) => {
         </div>
     );
 
-    if (type === "card") return (
-        <div className={styles.cardContainer}>
-            {sessions?.map((session) => (
-                <SessionRecentCard
-                    key={session.id}
-                    session={session}
-                    availableAccounts={sessionAvailableAccounts}
-                />
-            ))}
-        </div>
+    if (type === "card" && sessions) return (
+        <Suspense fallback={<Loader />}>
+            <div className={styles.cardContainer}>
+                {sessions?.length > 0 ? (
+                    sessions.map((session) => (
+                        <SessionRecentCard
+                            key={session.id}
+                            session={session}
+                            availableAccounts={sessionAvailableAccounts}
+                        />
+                    ))
+                ) : (
+                    <div>No sessions available.</div>
+                )}
+            </div>
+        </Suspense>
     );
 
     return (

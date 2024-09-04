@@ -6,6 +6,8 @@ import Avatar from "@/components/common/Avatar";
 import { formatDateString } from "@/helpers/dates";
 import { Account } from "@/types/account";
 import { retrieveAccountName } from "@/helpers/accounts";
+import {useSessionParticipants} from "@/api/sessions/useSessionParticipants";
+import Loader from "@/components/common/Loader";
 
 export type SessionRecentCardProps = {
     session: Session;
@@ -13,11 +15,15 @@ export type SessionRecentCardProps = {
 };
 
 export const SessionRecentCard = ({ session, availableAccounts }: SessionRecentCardProps) => {
+    const [loading, setLoading] = useState(false);
+    const { getParticipantsBySessionId } = useSessionParticipants()
     const [createdByName, setCreatedByName] = useState<string>("");
     const [updatedByName, setUpdatedByName] = useState<string>("");
+    const [participants, setParticipants] = useState<Account[]>([]);
 
     useEffect(() => {
-        const fetchNames = async () => {
+        const fetchNamesAndParticipants = async () => {
+            setLoading(true);
             const createdName = await retrieveAccountName(session.createdBy, availableAccounts);
             const updatedName = await retrieveAccountName(session.lastUpdatedBy, availableAccounts);
             if (createdName) {
@@ -26,10 +32,18 @@ export const SessionRecentCard = ({ session, availableAccounts }: SessionRecentC
             if (updatedName) {
                 setUpdatedByName(updatedName);
             }
+
+            const fetchedParticipants = await getParticipantsBySessionId(session.id);
+            setParticipants(fetchedParticipants.map(participant => participant.account));
+            setLoading(false);
         };
 
-        fetchNames();
-    }, [session.createdBy, session.lastUpdatedBy, availableAccounts]);
+        fetchNamesAndParticipants();
+    }, [session.createdBy, session.lastUpdatedBy, session.id, availableAccounts]);
+
+    if (loading) return (
+        <Loader />
+    )
 
     return (
         <div className={styles.container}>
@@ -54,6 +68,18 @@ export const SessionRecentCard = ({ session, availableAccounts }: SessionRecentC
                             {session.sportId}
                         </li>
                     </ul>
+                </div>
+                <div className={styles.participants}>
+                    {participants.length > 0 && (
+                        <>
+                            <strong>Participants: </strong>
+                            <div className={styles.participantAvatars}>
+                                {participants.map((participant, index) => (
+                                    <Avatar key={index} accountId={participant.id} size={40} />
+                                ))}
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
             <div className={styles.avatar}>
