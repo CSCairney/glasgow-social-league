@@ -1,6 +1,5 @@
 export const fetchWithAuth = async (url: string, options: RequestInit = {}, token: string) => {
-    // TODO - undo
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL_TEsT || 'http://localhost:8080';
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
 
     try {
         const response = await fetch(`${baseUrl}${url}`, {
@@ -35,7 +34,7 @@ export const fetchWithAuth = async (url: string, options: RequestInit = {}, toke
 };
 
 export const fetchWithoutAuth = async (url: string, options: RequestInit = {}) => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL_TEsT || 'http://localhost:8080';
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
 
     try {
         const response = await fetch(`${baseUrl}${url}`, {
