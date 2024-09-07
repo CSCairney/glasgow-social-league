@@ -82,7 +82,7 @@ const SelectedSport = () => {
                         alt={`${selectedSport} header`}
                         image={selectedSportHeaderImage}
                         height={"Medium"}
-                        overlayText={selectedSport}
+                        // overlayText={selectedSport}
                     /> :
                     <h4>{selectedSport}</h4>}
             </div>
