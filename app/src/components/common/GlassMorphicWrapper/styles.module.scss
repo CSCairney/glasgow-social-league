@@ -1,0 +1,10 @@
+@import "@/styles/colors";
+
+.container {
+  background: $glassmorphic-wrapper-first;
+  box-shadow: 0 8px 32px 0 $glassmorphic-wrapper-second;
+  backdrop-filter: blur( 4.5px );
+  -webkit-backdrop-filter: blur( 4.5px );
+  border-radius: 10px;
+  border: 1px solid $glassmorphic-wrapper-first;
+}

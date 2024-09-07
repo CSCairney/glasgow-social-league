@@ -1,6 +1,7 @@
 /*
  * Base colours.
 */
+$-grey: #5f5f5f;
 $-charcoal : #1b222c;
 $-black: #12151c;
 $-blood-red: #661b1c;
@@ -28,6 +29,9 @@ $application-navigation-text-color: $text-primary;
 $application-navigation-nested-background: $accent;
 $application-navigation-nested-text-color: $text-primary;
 $login-form-interaction-background: $-sand;
+
+$glassmorphic-wrapper-first: $-grey;
+$glassmorphic-wrapper-second: $-wine-red;
 
 $button-background-primary: $-blood-red;
 $button-color-primary: $text-primary;
