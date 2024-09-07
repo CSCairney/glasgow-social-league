@@ -23,20 +23,16 @@
 
 .slidingBar {
   display: flex;
-  transition: transform 0.3s ease-in-out;
-  overflow-x: hidden;
+  width: 200%; // Double the width to allow seamless scrolling
+  animation: slideLeft 30s linear infinite; // Adjust the duration (30s) for speed
+}
 
-  &.sliding {
-    animation: slideLeft 10s linear infinite;
+@keyframes slideLeft {
+  0% {
+    transform: translateX(0);
   }
-
-  @keyframes slideLeft {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
+  100% {
+    transform: translateX(-50%); // Move half of the duplicated content for looping
   }
 }
 
@@ -59,4 +55,8 @@
     background-color: $glassmorphic-wrapper-second;
     cursor: pointer;
   }
+}
+
+.slidingBar:hover {
+  animation-play-state: paused;
 }
