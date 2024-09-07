@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import {RootState, useAppDispatch, useAppSelector} from "@/app/store";
+import { MdRefresh } from "react-icons/md";
 import { useAccounts } from "@/api/accounts/useAccounts";
 import SessionCreate from "../../../../components/sports/components/SessionCreate";
 import MatchList from "../../../../components/sports/components/MatchList";
@@ -10,10 +11,14 @@ import SessionStop from "@/components/sports/components/SessionStop";
 import {Account} from "@/types/account";
 import { toast } from "react-toastify";
 import {SessionRecent} from "@/components/sports/components/SessionRecent";
-import {setAvailableAccounts} from "@/redux/stores/session";
+import {setAvailableAccounts, setSessionId as setReduxSessionId } from "@/redux/stores/session";
+import {headerImageRouteHandler} from "@/helpers/sports/headers";
+import {PageHeader} from "@/components/common/PageHeader";
+import {Icon} from "@/components/common/Icon";
 
 const SelectedSport = () => {
     const selectedSport = useAppSelector((state: RootState) => state.sport.name);
+    const selectedSportHeaderImage = headerImageRouteHandler(selectedSport);
     const storedSessionId = useAppSelector((state: RootState) => state.session.sessionId);
     const [loading, setLoading] = useState(true);
     const [sessionId, setSessionId] = useState<number | null>(storedSessionId);
@@ -61,18 +66,29 @@ const SelectedSport = () => {
         toast.info("Session Created!")
     };
 
+    const handleRefreshToken = () => {
+        dispatch(setReduxSessionId(null))
+    }
+
     if (loading) {
         return <div>Loading...</div>;
     }
 
     if (!sessionId) return (
         <div className={styles.container}>
-            <div className={styles.title}>
-                <h4>{selectedSport}</h4>
+            <div className={styles.header}>
+                {selectedSportHeaderImage ?
+                    <PageHeader
+                        alt={`${selectedSport} header`}
+                        image={selectedSportHeaderImage}
+                        height={"Medium"}
+                        overlayText={selectedSport}
+                    /> :
+                    <h4>{selectedSport}</h4>}
             </div>
-            <SessionCreate onCreate={handleSessionCreated}/>
-            <div className={styles.title}>
-                <h4>Recent Sessions</h4>
+            <div className={styles.controllers}>
+                <SessionCreate onCreate={handleSessionCreated}/>
+                <Icon type={MdRefresh} onClick={handleRefreshToken} className={styles.refresh} />
             </div>
             <SessionRecent type={"card"}/>
         </div>
@@ -80,8 +96,17 @@ const SelectedSport = () => {
 
     return (
         <div className={styles.container}>
-            <h4 className={styles.title}>{selectedSport}</h4>
-            {sessionId && <SessionStop/>}
+            <div className={styles.header}>
+                {selectedSportHeaderImage ?
+                    <PageHeader
+                        alt={`${selectedSport} header`}
+                        image={selectedSportHeaderImage}
+                        height={"Medium"}
+                        overlayText={selectedSport}
+                    /> :
+                    <h4>{selectedSport}</h4>}
+            </div>
+            {sessionId && <SessionStop />}
             {showModal && sessionId && (
                 <AccountsModal
                     sessionId={sessionId}

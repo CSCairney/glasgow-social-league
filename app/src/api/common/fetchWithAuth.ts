@@ -1,6 +1,6 @@
-export const fetchWithAuth = async (url: string, options: RequestInit = {}, token: string) => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
 
+export const fetchWithAuth = async (url: string, options: RequestInit = {}, token: string) => {
     try {
         const response = await fetch(`${baseUrl}${url}`, {
             ...options,
@@ -34,8 +34,6 @@ export const fetchWithAuth = async (url: string, options: RequestInit = {}, toke
 };
 
 export const fetchWithoutAuth = async (url: string, options: RequestInit = {}) => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
-
     try {
         const response = await fetch(`${baseUrl}${url}`, {
             ...options,

@@ -21,8 +21,6 @@ export default function Login() {
     const testToken = async (): Promise<void> => {
         try {
             const accounts = await getAllAccounts();
-            // You can check the validity of the token based on the accounts data.
-            // If token is invalid, you might want to handle it here.
             if (accounts && accounts.length > 0) {
                 console.log("User already logged in.");
             } else {
@@ -30,7 +28,6 @@ export default function Login() {
             }
         } catch (e) {
             console.error('Failed to fetch accounts', e);
-            toast.error('Invalid token. Please log in again.');
             router.push('/login');
         }
     }
@@ -55,7 +52,6 @@ export default function Login() {
             toast.info("Successfully logged in!");
             router.push("/");
         } catch (err) {
-            toast.error('Login failed. Please check your credentials and try again.');
             console.error(error);
         } finally {
             setIsLoading(false);

@@ -6,7 +6,6 @@
   justify-content: center;
   gap: 2rem;
   align-items: center;
-  background-color: $application-background;
 
   // Media query for mobile devices
   @media (max-width: 768px) {
@@ -18,6 +17,10 @@
   }
 }
 
+.header {
+  width: 100%;
+}
+
 .title {
   font-size: 2rem;
   color: $-sand;
@@ -27,4 +30,15 @@
     margin-right: 0;
     margin-bottom: 1rem;
   }
+}
+
+.controllers {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1rem;
+}
+
+.refresh {
+  color: white;
+  background-color: $accent;
 }

@@ -1,24 +1,40 @@
 /*
  * Base colours.
- */
- $-charcoal : #1b222c;
- $-black: #12151c;
- $-blood-red: #661b1c;
- $-dark-blood-red:#531516;
- $-light-grey: #ECECEC;
- $-sand: #FFF8EE;
+*/
+$-charcoal : #1b222c;
+$-black: #12151c;
+$-blood-red: #661b1c;
+$-dark-blood-red:#531516;
+$-wine-red: #733442;
+$-burnt-amber: #6C322E;
+$-muddy-water: #B78D5F;
+$-light-grey: #ECECEC;
+$-sand: #FFF8EE;
+
+$background: #1b222c;
+$primary: $-charcoal;
+$secondary: $-wine-red;
+$accent: $-muddy-water;
+
+$text-primary: $-sand;
+$text-secondary: $-black;
  
- /*
-   * Components Colours.
-   */
- $application-background: $-black;
- $application-navigation-background: $-charcoal;
- $application-navigation--nested-background: $-dark-blood-red;
- $login-form-interaction-background: $-sand;
+/*
+  * Components Colours.
+*/
+$application-background: $-black;
+$application-navigation-background: $background;
+$application-navigation-text-color: $text-primary;
+$application-navigation-nested-background: $accent;
+$application-navigation-nested-text-color: $text-primary;
+$login-form-interaction-background: $-sand;
 
 $button-background-primary: $-blood-red;
-$button-color-primary: $-light-grey;
+$button-color-primary: $text-primary;
 $button-hover-primary: $-dark-blood-red;
+$button-background-secondary: $accent;
+$button-color-secondary: $text-primary;
+$button-hover-secondary: $-dark-blood-red;
 
 $default-divider-color: $-sand;
 

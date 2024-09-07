@@ -2,15 +2,15 @@
 
 .application {
   display: grid;
-  background-color: $application-background;
-  height: 100vh; /* Ensure the application takes full viewport height */
+  height: 100vh;
   margin: 0 !important;
+  background-color: $application-background;
 
   @media (max-width: 768px) {
     grid-template-rows: auto 1fr; /* Same for smaller screens */
   }
 
   @media (min-width: 768px) {
-    grid-template-rows: minmax(50px, auto) 1fr; /* Adjust header height on larger screens */
+    grid-template-rows: 10% 90%; /* Adjust header height on larger screens */
   }
 }
