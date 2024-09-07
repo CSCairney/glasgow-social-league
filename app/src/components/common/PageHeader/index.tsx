@@ -1,5 +1,6 @@
 import styles from './styles.module.scss';
 import Image from "next/image";
+import clsx from "clsx";
 
 export type PageHeaderProps = {
     height?: "Small" | "Medium" | "Large";
@@ -8,9 +9,10 @@ export type PageHeaderProps = {
     onClick?: () => void;
     overlayText?: string;
     blurImage?: boolean;
+    className?: string;
 }
 
-export const PageHeader = ({ height = "Small", image, alt, onClick, overlayText, blurImage = false }: PageHeaderProps) => {
+export const PageHeader = ({ height = "Small", image, alt, onClick, overlayText, blurImage = false, className }: PageHeaderProps) => {
 
     const heightHandler = (height: string) => {
         switch (height) {
@@ -26,7 +28,7 @@ export const PageHeader = ({ height = "Small", image, alt, onClick, overlayText,
     }
 
     return (
-        <div className={styles.pageHeader}>
+        <div className={clsx(styles.pageHeader, className)}>
             <Image
                 src={image}
                 alt={alt}

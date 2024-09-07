@@ -96,8 +96,17 @@ const SelectedSport = () => {
 
     return (
         <div className={styles.container}>
-            <h4 className={styles.title}>{selectedSport}</h4>
-            {sessionId && <SessionStop/>}
+            <div className={styles.header}>
+                {selectedSportHeaderImage ?
+                    <PageHeader
+                        alt={`${selectedSport} header`}
+                        image={selectedSportHeaderImage}
+                        height={"Medium"}
+                        overlayText={selectedSport}
+                    /> :
+                    <h4>{selectedSport}</h4>}
+            </div>
+            {sessionId && <SessionStop />}
             {showModal && sessionId && (
                 <AccountsModal
                     sessionId={sessionId}
