@@ -61,7 +61,7 @@ export const SessionRecent = ({ type }:SessionRecentProps) => {
                 updateColumnData(sessions.content);
             }
             if (sessions.content.length > 0 && type === "card") {
-                setSession(sessions.content);
+                setSession(sessions.content.reverse());
             }
         } catch (error) {
             toast.error(`Failed to fetch recent sessions`);

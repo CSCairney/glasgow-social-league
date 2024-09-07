@@ -7,6 +7,7 @@ import {setName, setToken, setEmail, setId} from "@/redux/stores/account";
 import {RootState, useAppDispatch, useAppSelector} from "@/app/store";
 import {toast} from "react-toastify";
 import {Account} from "@/types/account";
+import {setAvailableAccounts} from "@/redux/stores/session";
 
 export default function Login() {
     const token = useAppSelector((state: RootState) => state.account.token);
@@ -22,9 +23,8 @@ export default function Login() {
         try {
             const accounts = await getAllAccounts();
             if (accounts && accounts.length > 0) {
+                dispatch(setAvailableAccounts(accounts));
                 console.log("User already logged in.");
-            } else {
-                toast.dark('Token is invalid or no accounts found');
             }
         } catch (e) {
             console.error('Failed to fetch accounts', e);
