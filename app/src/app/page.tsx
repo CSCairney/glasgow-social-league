@@ -11,7 +11,7 @@ export default function Home() {
         <>
             <main className={styles.main}>
                 <PageHeader image={"/landing/MainHeader.jpg"} alt={"Landing Page header"} height={"Large"} className={styles.header}  />
-                <MatchRecentScores amount={10} />
+                <MatchRecentScores amount={10} variant={"primary"} />
                 <WelcomeHero className={styles.welcome} />
             </main>
         </>
