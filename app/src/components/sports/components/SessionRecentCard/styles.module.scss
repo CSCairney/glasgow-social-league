@@ -1,63 +1,86 @@
 @import "@/styles/colors";
 
-.container {
-  display: grid;
-  background-color: $application-navigation-background;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  padding: 10px;
-  gap: 20px;
-  border: 1px solid $-sand;
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: $-charcoal;
+  color: $text-primary;
+  border-radius: 12px;
+  border: 1px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+  width: 90%;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.cardContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .details {
-  display: grid;
-  grid-template-rows: auto auto;
-  text-align: left;
+  flex: 1;
+  margin-right: 20px;
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.8rem;
+  font-weight: 700;
   margin-bottom: 10px;
+  text-align: start;
 }
 
-.information {
+.informationTable {
+  width: 100%;
+  border-collapse: collapse;
   font-size: 1rem;
-  color: #666;
+  text-align: left;
+
+  td {
+    padding: 8px;
+    vertical-align: top;
+    font-size: 1rem;
+
+    &:first-child {
+      font-weight: bold;
+      width: 35%;
+      display: flex;
+      align-items: center;
+
+      i {
+        margin-right: 8px;
+        font-size: 1.2rem;
+      }
+    }
+  }
 }
 
 .participants {
-  margin-top: 10px;
+  margin-top: 15px;
+  text-align: start;
 
   strong {
-    color: white;
     display: block;
     margin-bottom: 5px;
+    font-size: 1.1rem;
+  }
+
+  .participantAvatars {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 }
 
-.participantAvatars {
+.avatarContainer {
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.avatar {
-  display: flex;
-  justify-content: center;
   align-items: center;
-}
-
-.informationList {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-
-  li {
-    font-size: 1rem;
-    margin-bottom: 8px;
-    color: white;
-  }
+  justify-content: center;
 }
