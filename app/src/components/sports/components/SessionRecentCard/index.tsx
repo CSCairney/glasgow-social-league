@@ -6,7 +6,7 @@ import Avatar from "@/components/common/Avatar";
 import { formatDateString } from "@/helpers/dates";
 import { Account } from "@/types/account";
 import { retrieveAccountName } from "@/helpers/accounts";
-import { sportsLookup } from '@/helpers/sports/sports';
+import { sportsLookup } from "@/helpers/sports/sports";
 import { useAppDispatch } from "@/app/store";
 import { setSessionId } from "@/redux/stores/session";
 
@@ -14,6 +14,7 @@ export type SessionRecentCardProps = {
     session: Session;
     availableAccounts: Account[];
 };
+
 export const SessionRecentCard = ({ session, availableAccounts }: SessionRecentCardProps) => {
     const [createdByName, setCreatedByName] = useState<string>("");
     const [updatedByName, setUpdatedByName] = useState<string>("");
@@ -43,33 +44,39 @@ export const SessionRecentCard = ({ session, availableAccounts }: SessionRecentC
             <div className={styles.cardContent}>
                 <div className={styles.details}>
                     <h2 className={styles.title}>Session {session.id}</h2>
-                    <ul className={styles.informationList}>
-                        <li>
-                            <i className="icon-calendar" /> Date: {formatDateString(session.date)}
-                        </li>
-                        <li>
-                            <i className="icon-user" /> Created by: {createdByName}
-                        </li>
-                        <li>
-                            <i className="icon-edit" /> Updated by: {updatedByName}
-                        </li>
-                        <li>
-                            <i className="icon-sport" /> Sport: {sportsLookup[session.sportId]}
-                        </li>
-                    </ul>
+                    <table className={styles.informationTable}>
+                        <tbody>
+                        <tr>
+                            <td><i className="fas fa-calendar-alt"/> Date:</td>
+                            <td>{formatDateString(session.date)}</td>
+                        </tr>
+                        <tr>
+                            <td><i className="fas fa-user"/> Creator:</td>
+                            <td>{createdByName}</td>
+                        </tr>
+                        <tr>
+                            <td><i className="fas fa-edit"/> Updated:</td>
+                            <td>{updatedByName}</td>
+                        </tr>
+                        <tr>
+                            <td><i className="fas fa-futbol"/> Sport:</td>
+                            <td>{sportsLookup[session.sportId]}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                     {session.participants && session.participants.length > 0 && (
                         <div className={styles.participants}>
                             <strong>Participants</strong>
                             <div className={styles.participantAvatars}>
                                 {session.participants.map((participant, index) => (
-                                    <Avatar key={index} accountId={participant.accountId} size={50} />
+                                    <Avatar key={index} accountId={participant.accountId} size={50}/>
                                 ))}
                             </div>
                         </div>
                     )}
                 </div>
                 <div className={styles.avatarContainer}>
-                    <Avatar accountId={session.createdBy} size={60} />
+                    <Avatar accountId={session.createdBy} size={60}/>
                 </div>
             </div>
         </div>
