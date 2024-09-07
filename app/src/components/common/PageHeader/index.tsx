@@ -30,6 +30,7 @@ export const PageHeader = ({ height = "Small", image, alt, onClick, overlayText,
     return (
         <div className={clsx(styles.pageHeader, className)}>
             <Image
+                priority={true}
                 src={image}
                 alt={alt}
                 onClick={onClick}
