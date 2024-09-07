@@ -2,9 +2,9 @@
 
 .application {
   display: grid;
-  background-color: $application-background;
   height: 100vh; /* Ensure the application takes full viewport height */
   margin: 0 !important;
+  background-color: $application-background;
 
   @media (max-width: 768px) {
     grid-template-rows: auto 1fr; /* Same for smaller screens */

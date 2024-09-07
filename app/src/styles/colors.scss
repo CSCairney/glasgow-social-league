@@ -15,18 +15,26 @@ $background: #1b222c;
 $primary: $-charcoal;
 $secondary: $-wine-red;
 $accent: $-muddy-water;
+
+$text-primary: $-sand;
+$text-secondary: $-black;
  
 /*
   * Components Colours.
 */
 $application-background: $-black;
 $application-navigation-background: $background;
-$application-navigation--nested-background: $accent;
+$application-navigation-text-color: $text-primary;
+$application-navigation-nested-background: $accent;
+$application-navigation-nested-text-color: $text-primary;
 $login-form-interaction-background: $-sand;
 
 $button-background-primary: $-blood-red;
-$button-color-primary: $-light-grey;
+$button-color-primary: $text-primary;
 $button-hover-primary: $-dark-blood-red;
+$button-background-secondary: $accent;
+$button-color-secondary: $text-primary;
+$button-hover-secondary: $-dark-blood-red;
 
 $default-divider-color: $-sand;
 

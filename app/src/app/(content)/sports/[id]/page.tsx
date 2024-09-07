@@ -11,9 +11,12 @@ import {Account} from "@/types/account";
 import { toast } from "react-toastify";
 import {SessionRecent} from "@/components/sports/components/SessionRecent";
 import {setAvailableAccounts} from "@/redux/stores/session";
+import {headerImageRouteHandler} from "@/helpers/sports/headers";
+import {PageHeader} from "@/components/common/PageHeader";
 
 const SelectedSport = () => {
     const selectedSport = useAppSelector((state: RootState) => state.sport.name);
+    const selectedSportHeaderImage = headerImageRouteHandler(selectedSport);
     const storedSessionId = useAppSelector((state: RootState) => state.session.sessionId);
     const [loading, setLoading] = useState(true);
     const [sessionId, setSessionId] = useState<number | null>(storedSessionId);
@@ -67,12 +70,14 @@ const SelectedSport = () => {
 
     if (!sessionId) return (
         <div className={styles.container}>
-            <div className={styles.title}>
-                <h4>{selectedSport}</h4>
+            <div className={styles.header}>
+                {selectedSportHeaderImage ?
+                    <PageHeader alt={`${selectedSport} header`} image={selectedSportHeaderImage} height={"Medium"} /> :
+                    <h4>{selectedSport}</h4>}
             </div>
             <SessionCreate onCreate={handleSessionCreated}/>
             <div className={styles.title}>
-                <h4>Recent Sessions</h4>
+                <h6>Recent Sessions</h6>
             </div>
             <SessionRecent type={"card"}/>
         </div>

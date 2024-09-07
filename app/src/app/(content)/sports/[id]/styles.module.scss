@@ -6,7 +6,6 @@
   justify-content: center;
   gap: 2rem;
   align-items: center;
-  background-color: $application-background;
 
   // Media query for mobile devices
   @media (max-width: 768px) {
@@ -16,6 +15,10 @@
     text-align: center;
     gap: 1rem;
   }
+}
+
+.header {
+  width: 100%;
 }
 
 .title {

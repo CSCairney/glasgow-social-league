@@ -3,9 +3,8 @@
 .container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   max-height: 90vh;
-  background-color: $application-background;
   padding: 20px;
 }
 
