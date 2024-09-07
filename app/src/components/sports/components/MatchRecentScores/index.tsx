@@ -5,8 +5,7 @@ import { MatchQueryParams } from "@/types/matches";
 import styles from './styles.module.scss';
 import Loader from "@/components/common/Loader";
 import { toast } from "react-toastify";
-import {RootState, useAppSelector} from "@/app/store";
-import {retrieveAccountName} from "@/helpers/accounts";
+import {accountNameFromId, retrieveAccountName} from "@/helpers/accounts";
 
 export type MatchRecentScoresProps = {
     amount: number;
@@ -19,17 +18,19 @@ export type MatchRecentScoresProps = {
 export const MatchRecentScores = (
     { amount, sportId, sliding = false, variant = 'primary', className }: MatchRecentScoresProps
 ) => {
-    const accounts = useAppSelector((state) => state.session.availableAccounts);
     const [matches, setMatches] = useState<MatchResponseDTO[]>([]);
-    const { getAllMatches, loading } = useMatches();
+    const [loading, setLoading] = useState(false);
+    const { getAllMatches } = useMatches();
     const params: MatchQueryParams = { amount, sportId };
 
     const retrieveRecentMatches = useCallback(async () => {
         try {
+            setLoading(true);
             const fetchedMatches = await getAllMatches(params);
             if (fetchedMatches.length > 0) {
                 setMatches(fetchedMatches);
             }
+            setLoading(false);
         } catch (error) {
             toast.error('Failed to fetch recent sessions');
         }
@@ -50,7 +51,7 @@ export const MatchRecentScores = (
             <div className={`${styles.slidingBar} ${sliding ? styles.sliding : ''}`}>
                 {duplicatedMatches.map((match, index) => (
                     <div key={`${match.id}-${index}`} className={styles.matchItem}>
-                        <p>{retrieveAccountName(match.playerOneId, accounts)} {match.scorePlayerOne} - {match.scorePlayerTwo} {retrieveAccountName(match.playerTwoId, accounts)}</p>
+                        <p>{accountNameFromId[match.playerOneId]} {match.scorePlayerOne} - {match.scorePlayerTwo} {accountNameFromId[match.playerTwoId]}</p>
                     </div>
                 ))}
             </div>
