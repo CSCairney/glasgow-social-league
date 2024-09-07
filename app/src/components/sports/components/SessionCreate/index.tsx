@@ -13,7 +13,6 @@ const SessionCreate: React.FC<{ onCreate: (sessionId: number) => void }> = ({ on
 
     const handleCreateSession = async () => {
         try {
-            // Clear previous session state before creating a new session
             dispatch(clearSessionState());
 
             const newSession: Omit<SessionRequest, 'id'> = {

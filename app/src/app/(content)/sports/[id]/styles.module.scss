@@ -31,3 +31,14 @@
     margin-bottom: 1rem;
   }
 }
+
+.controllers {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1rem;
+}
+
+.refresh {
+  color: white;
+  background-color: $accent;
+}

@@ -1,0 +1,34 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.button svg {
+  width: 100%;
+  height: 100%;
+  max-width: 3rem;
+  max-height: 3rem;
+  fill: currentColor;
+}
+
+.fallbackSize {
+  width: 3rem;
+  height: 3rem;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
