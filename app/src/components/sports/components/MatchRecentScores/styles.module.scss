@@ -2,6 +2,8 @@
 
 .sliderContainer {
   width: 100%;
+  height: fit-content;
+  min-height: 40px;
   overflow: hidden;
   padding: 10px;
   margin-top: 0;
@@ -23,8 +25,8 @@
 
 .slidingBar {
   display: flex;
-  width: 200%; // Double the width to allow seamless scrolling
-  animation: slideLeft 30s linear infinite; // Adjust the duration (30s) for speed
+  width: 200%;
+  animation: slideLeft 30s linear infinite;
 }
 
 @keyframes slideLeft {
