@@ -15,6 +15,7 @@ import {setAvailableAccounts, setSessionId as setReduxSessionId } from "@/redux/
 import {headerImageRouteHandler} from "@/helpers/sports/headers";
 import {PageHeader} from "@/components/common/PageHeader";
 import {Icon} from "@/components/common/Icon";
+import {useRouter} from "next/navigation";
 
 const SelectedSport = () => {
     const selectedSport = useAppSelector((state: RootState) => state.sport.name);
@@ -24,6 +25,7 @@ const SelectedSport = () => {
     const [sessionId, setSessionId] = useState<number | null>(storedSessionId);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [accounts, setAccounts] = useState<Account[]>([]);
+    const router = useRouter();
     const dispatch = useAppDispatch();
 
     const { getAllAccounts } = useAccounts();
@@ -66,8 +68,11 @@ const SelectedSport = () => {
         toast.info("Session Created!")
     };
 
-    const handleRefreshToken = () => {
-        dispatch(setReduxSessionId(null))
+    const refresh = async () => {
+        setLoading(true);
+        await dispatch(setReduxSessionId(null));
+        setSessionId(null);
+        setShowModal(false);
     }
 
     if (loading) {
@@ -82,13 +87,12 @@ const SelectedSport = () => {
                         alt={`${selectedSport} header`}
                         image={selectedSportHeaderImage}
                         height={"Medium"}
-                        // overlayText={selectedSport}
                     /> :
                     <h4>{selectedSport}</h4>}
             </div>
             <div className={styles.controllers}>
                 <SessionCreate onCreate={handleSessionCreated}/>
-                <Icon type={MdRefresh} onClick={handleRefreshToken} className={styles.refresh} />
+                <Icon type={MdRefresh} onClick={refresh} className={styles.refresh} disabled={!storedSessionId} />
             </div>
             <SessionRecent type={"card"}/>
         </div>
@@ -106,7 +110,10 @@ const SelectedSport = () => {
                     /> :
                     <h4>{selectedSport}</h4>}
             </div>
-            {sessionId && <SessionStop />}
+            <div className={styles.controllers}>
+                {sessionId && <SessionStop />}
+                <Icon type={MdRefresh} onClick={refresh} className={styles.refresh} />
+            </div>
             {showModal && sessionId && (
                 <AccountsModal
                     sessionId={sessionId}

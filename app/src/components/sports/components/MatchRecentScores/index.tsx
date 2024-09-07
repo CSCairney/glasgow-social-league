@@ -19,7 +19,6 @@ export const MatchRecentScores = (
     { amount, sportId, sliding = false, variant = 'primary', className }: MatchRecentScoresProps
 ) => {
     const [matches, setMatches] = useState<MatchResponseDTO[]>([]);
-    // const sessionAvailableAccounts = useAppSelector(state => state.session.availableAccounts);
     const { getAllMatches, loading } = useMatches();
     const slidingBarRef = useRef<HTMLDivElement>(null);
     const params: MatchQueryParams = { amount, sportId };
