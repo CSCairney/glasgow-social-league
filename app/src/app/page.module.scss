@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
   min-height: 100vh;
   max-width: 100vw;
   color:white;
@@ -25,5 +24,6 @@
 }
 
 .welcome {
+  margin-top: 1rem;
   width: 90%;
 }

@@ -2,9 +2,36 @@ import { fetchWithAuth } from "@/api/common/fetchWithAuth";
 import { useAppSelector } from "@/app/store";
 import { MatchRequestDTO, MatchResponseDTO} from "@/types/sports/match";
 import {SessionParticipant} from "@/types/sessions";
+import {MatchQueryParams} from "@/types/matches";
+import {useState} from "react";
 
 export const useMatches = () => {
+    const [loading, setLoading] = useState(false);
     const stateToken = useAppSelector(state => state.account.token);
+
+    const getAllMatches = async (params: MatchQueryParams = {}): Promise<MatchResponseDTO[]> => {
+        setLoading(true);
+        const query = new URLSearchParams();
+
+        if (params.amount !== undefined) {
+            query.append('amount', params.amount.toString());
+        }
+        if (params.sportId !== undefined) {
+            query.append('sportId', params.sportId.toString());
+        }
+        const url = `/matches?${query.toString()}`;
+
+        try {
+            const response = await fetchWithAuth(url, {}, stateToken);
+            setLoading(false);
+            return response as MatchResponseDTO[];
+        } catch (error) {
+            console.error('Error fetching matches:', error);
+            setLoading(false);
+            throw error;
+        }
+    };
+
 
     const getMatchesBySessionId = async (sessionId: number): Promise<MatchResponseDTO[]> => {
         return await fetchWithAuth(`/matches/session/${sessionId}`, {}, stateToken);
@@ -52,9 +79,11 @@ export const useMatches = () => {
     };
 
     return {
+        getAllMatches,
         getMatchesBySessionId,
         createMatch,
         updateMatch,
         createMatchesForSession,
+        loading,
     };
 };
