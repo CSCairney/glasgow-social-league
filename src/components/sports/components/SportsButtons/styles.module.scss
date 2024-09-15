@@ -16,21 +16,64 @@
   }
 }
 
+.sportButtonContainer {
+  display: grid;
+  margin: 1rem;
+  gap: 1rem;
+  grid-template-rows: auto;
+
+  @media (min-width: $--responsive-tablet-breakpoint) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
 
 .button {
+  display: grid;
+  grid-template-areas:
+    "icon details";
+  grid-template-columns: 25% 75%;
+  align-items: center;
+  padding: 1rem;
   background-color: $button-background-primary;
   border: none;
   border-radius: 5px;
   color: $button-color-primary;
-  padding: 1rem;
-  text-align: left;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-align: left;
 
   &:hover {
     background-color: $button-hover-primary;
   }
+
+  @media (min-width: $--responsive-tablet-breakpoint) {
+    width: 45%;
+  }
 }
+
+.sportIcon {
+  grid-area: icon;
+  justify-self: center;
+}
+
+.sportDetails {
+  grid-area: details;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.sportDetails h2 {
+  margin: 0;
+}
+
+.sportDetails p {
+  margin: 0.5rem 0 0 0;
+}
+
 
 .name {
   margin: 0;
@@ -40,4 +83,5 @@
 .description {
   margin: 0.5rem 0 0;
   color: $-sand;
+  font-size: 0.75rem;
 }
