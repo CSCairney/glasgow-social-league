@@ -1,0 +1,17 @@
+@import "@/styles/colors";
+@import "@/styles/sizes";
+
+.application {
+  display: grid;
+  height: 100vh;
+  margin: 0 !important;
+  background-color: $application-background;
+
+  @media (max-width: $--responsive-tablet-breakpoint) {
+    grid-template-rows: auto 1fr;
+  }
+
+  @media (min-width: $--responsive-tablet-breakpoint) {
+    grid-template-rows: 10% 90%;
+  }
+}

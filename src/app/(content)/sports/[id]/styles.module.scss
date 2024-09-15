@@ -1,0 +1,45 @@
+@import "@/styles/colors";
+@import "@/styles/sizes";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  align-items: center;
+
+  @media (max-width: $--responsive-tablet-breakpoint) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+}
+
+.header {
+  width: 100%;
+}
+
+.title {
+  font-size: 2rem;
+  color: $-sand;
+
+  // Center the title on mobile
+  @media (max-width: $--responsive-tablet-breakpoint) {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+}
+
+.controllers {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1rem;
+  padding: $--unit;
+}
+
+.refresh {
+  color: white;
+  background-color: $accent;
+}

@@ -1,0 +1,43 @@
+@import "@/styles/colors";
+@import "@/styles/sizes";
+
+.container {
+  height: 40vh;
+  min-width: 50vw;
+  max-width: 70vw;
+
+  @media (max-width: $--responsive-tablet-breakpoint) {
+    height: 50vh;
+    min-width: 60vw;
+    max-width: 85vw;
+  }
+
+  @media (max-width: $--responsive-mobile-breakpoint) {
+    height: 60vh;
+    min-width: 90vw;
+    max-width: 95vw;
+  }
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  height: 40vh;
+  min-width: 50vw;
+  max-width: 70vw;
+  gap: 1rem;
+
+  @media (max-width: $--responsive-tablet-breakpoint) {
+    height: 50vh;
+    min-width: 60vw;
+    max-width: 85vw;
+  }
+
+  @media (max-width: $--responsive-mobile-breakpoint) {
+    height: 60vh;
+    min-width: 90vw;
+    max-width: 95vw;
+  }
+}
+
