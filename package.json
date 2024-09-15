@@ -50,8 +50,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
-      "next lint --fix",
-      "git add"
+      "eslint --fix"
     ]
   }
 }

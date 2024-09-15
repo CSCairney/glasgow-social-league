@@ -5,6 +5,10 @@ import { Sport } from "@/components/sports/types";
 import {useAppDispatch} from "@/app/store";
 import {setSportDescription, setSportId, setSportName} from "@/redux/stores/sport";
 import {useRouter} from "next/navigation";
+import {BadmintonIcon} from "@/components/sports/components/icons/Badminton/BadmintonIcon";
+import {sportsLookup} from "@/helpers/sports/sports";
+import {FootballIcon} from "@/components/sports/components/icons/Football/FootballIcon";
+import {IconSelector} from "@/components/sports/components/icons/IconSelector/IconSelector";
 
 const SportsButtons: React.FC = () => {
     const { getAllSports } = useSports();
@@ -32,17 +36,24 @@ const SportsButtons: React.FC = () => {
     }, []);
 
     return (
-        <div className={styles.container}>
-            {sports ? (sports.map((sport) => (
-                <button
-                    key={sport.id}
-                    className={styles.button}
-                    onClick={() => handleSportClick(sport.id)}
-                >
-                    <h3 className={styles.name}>{sport.name}</h3>
-                    <p className={styles.description}>{sport.description}</p>
-                </button>
-            ))) : (
+        <div className={styles.sportButtonContainer}>
+            {sports ? (
+                sports.map((sport) => (
+                    <button
+                        key={sport.id}
+                        className={styles.button}
+                        onClick={() => handleSportClick(sport.id)}
+                    >
+                        <div className={styles.sportIcon}>
+                            <IconSelector sportId={sport.id} width={50} height={50} />
+                        </div>
+                        <div className={styles.sportDetails}>
+                            <h2 className={styles.name}>{sport.name}</h2>
+                            <p className={styles.description}>{sport.description}</p>
+                        </div>
+                    </button>
+                ))
+            ) : (
                 <p>Sports unable to be retrieved. Contact Support.</p>
             )}
         </div>
