@@ -1,4 +1,5 @@
 @import "@/styles/colors";
+@import "@/styles/sizes";
 
 .matchListContainer {
   display: flex;
@@ -11,7 +12,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Adds a subtle shadow for depth
   width: 80%;
 
-  @media (min-width: 768px) {
+  @media (min-width: $--responsive-tablet-breakpoint) {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); // Ensures items fill available space, with each item being at least 300px wide
     gap: 20px;

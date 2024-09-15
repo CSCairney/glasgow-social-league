@@ -1,4 +1,5 @@
 @import "@/styles/colors";
+@import "@/styles/sizes";
 
 .container {
   display: grid;
@@ -6,10 +7,10 @@
   padding: 1rem;
   border-radius: 8px;
   margin-top: 0;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(calc($--unit * 75), 1fr));
 }
 
-@media (max-width: 768px) {
+@media (max-width: $--responsive-tablet-breakpoint) {
   .container {
     grid-template-columns: 1fr;
   }

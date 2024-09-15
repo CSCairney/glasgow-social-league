@@ -1,4 +1,5 @@
 @import "@/styles/colors";
+@import "@/styles/sizes";
 
 .application {
   display: grid;
@@ -6,11 +7,11 @@
   margin: 0 !important;
   background-color: $application-background;
 
-  @media (max-width: 768px) {
-    grid-template-rows: auto 1fr; /* Same for smaller screens */
+  @media (max-width: $--responsive-tablet-breakpoint) {
+    grid-template-rows: auto 1fr;
   }
 
-  @media (min-width: 768px) {
-    grid-template-rows: 10% 90%; /* Adjust header height on larger screens */
+  @media (min-width: $--responsive-tablet-breakpoint) {
+    grid-template-rows: 10% 90%;
   }
 }
