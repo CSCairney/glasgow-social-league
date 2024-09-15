@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountModal SNAPSHOT test for default layout 1`] = `
+<DocumentFragment>
+  <div
+    class="modalOverlay"
+  >
+    <div
+      class="modalContent"
+    >
+      <h2
+        class="title"
+      >
+        Select Participants
+      </h2>
+      <div
+        class="accountList"
+      />
+      <div
+        class="modalActions"
+      >
+        <button
+          class="startButton"
+        >
+          Start Session
+        </button>
+        <button
+          class="closeButton"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
